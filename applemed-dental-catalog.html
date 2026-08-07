@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apple Med Trading — Dental Catalogue Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#07222E;
+  --ink-soft:#3D5A66;
+  --teal:#0E7C8A;
+  --cyan:#1FA9C6;
+  --porcelain:#EDF3F5;
+  --bone:#FFFFFF;
+  --line:#D3E0E5;
+  --clay:#B7562F;
+  --amber:#8A6A2F;
+  --shadow:0 1px 2px rgba(7,34,46,.06), 0 8px 24px rgba(7,34,46,.06);
+  --radius:10px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--porcelain);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{font-family:"Archivo","Helvetica Neue",Arial,sans-serif;letter-spacing:-.02em;margin:0}
+code,.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace}
+button{font:inherit;cursor:pointer}
+a{color:var(--teal)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:4px}
+
+/* ---------- header ---------- */
+.masthead{
+  background:var(--ink);color:#fff;
+  padding:22px 20px 0;
+  position:relative;
+}
+.masthead-inner{max-width:1240px;margin:0 auto}
+.brandline{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8FC4D2;
+}
+.brandline b{color:#fff;font-weight:600;letter-spacing:.16em}
+h1{font-size:clamp(28px,5vw,44px);font-weight:700;margin:10px 0 4px;color:#fff}
+.sub{color:#9EC5D0;max-width:60ch;margin:0 0 20px;font-size:14px}
+
+.searchwrap{position:relative;padding-bottom:20px}
+.searchbox{display:flex;align-items:center;gap:12px;background:#fff;border-radius:var(--radius);padding:0 14px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.searchbox svg{flex:none;color:var(--ink-soft)}
+#q{
+  flex:1;border:0;background:transparent;padding:16px 0;font-size:17px;color:var(--ink);
+  font-family:inherit;min-width:0;
+}
+#q:focus{outline:none}
+#q::placeholder{color:#7E97A0}
+.clearbtn{border:0;background:var(--porcelain);color:var(--ink-soft);border-radius:20px;padding:5px 12px;font-size:13px}
+.clearbtn:hover{background:var(--line)}
+.hint{margin-top:10px;font-size:12.5px;color:#8FB4BF}
+.hint b{color:#CFE6ED;font-weight:500}
+
+/* ---------- layout ---------- */
+.shell{max-width:1240px;margin:0 auto;padding:0 20px 120px;display:grid;grid-template-columns:210px 1fr;gap:28px;align-items:start}
+.rail{position:sticky;top:16px;padding-top:22px}
+.rail h2{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px}
+.catlist{display:flex;flex-direction:column;gap:1px}
+.cat{
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  border:0;background:transparent;text-align:left;color:var(--ink-soft);
+  padding:7px 9px;border-radius:6px;font-size:13.5px;width:100%;
+}
+.cat:hover{background:#E1EBEE;color:var(--ink)}
+.cat[aria-pressed="true"]{background:var(--ink);color:#fff}
+.cat span{font-size:11.5px;opacity:.65;font-family:"IBM Plex Mono",monospace}
+
+.results{padding-top:22px;min-width:0}
+.resbar{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.count{font-size:13px;color:var(--ink-soft)}
+.count b{color:var(--ink);font-weight:600}
+
+/* ---------- product card ---------- */
+.card{
+  background:var(--bone);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 16px 6px;margin-bottom:12px;box-shadow:var(--shadow);
+}
+.card-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.card h3{font-size:17px;font-weight:600;line-height:1.25}
+.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);border:1px solid #BEDCE2;background:#F2FAFB;padding:2px 7px;border-radius:4px}
+.tag.brand{color:var(--clay);border-color:#EAD0C6;background:#FCF5F2}
+.pageref{
+  flex:none;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);
+  border-left:2px solid var(--cyan);padding-left:8px;line-height:1.3;text-align:left;
+}
+.pageref b{display:block;font-size:15px;color:var(--ink);font-weight:600}
+.desc{color:var(--ink-soft);font-size:13.5px;margin:10px 0 12px;max-width:78ch}
+
+/* variants table */
+.vt{width:100%;border-collapse:collapse;font-size:13.5px}
+.vt th{
+  text-align:left;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line);
+}
+.vt td{padding:7px 8px;border-bottom:1px solid #EDF2F4;vertical-align:middle}
+.vt tr:last-child td{border-bottom:0}
+.vt tr.hit td{background:#FFFAEC}
+.code{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;letter-spacing:.02em;
+  background:var(--porcelain);border:1px solid var(--line);border-radius:5px;padding:3px 7px;
+  color:var(--ink);white-space:nowrap;
+}
+.code.none{background:transparent;border-style:dashed;color:#8AA1AA;font-weight:500}
+.copyc{border:0;background:transparent;color:#8AA1AA;padding:2px 4px;border-radius:4px;font-size:11px}
+.copyc:hover{color:var(--teal);background:var(--porcelain)}
+.vt .pk{color:var(--ink-soft)}
+.add{
+  border:1px solid var(--teal);background:#fff;color:var(--teal);border-radius:6px;
+  padding:4px 12px;font-size:12.5px;font-weight:600;white-space:nowrap;
+}
+.add:hover{background:var(--teal);color:#fff}
+.add.in{background:var(--ink);border-color:var(--ink);color:#fff}
+.more{
+  border:0;background:transparent;color:var(--teal);font-size:12.5px;font-weight:600;
+  padding:8px 0 10px;
+}
+.more:hover{text-decoration:underline}
+.empty{background:#fff;border:1px dashed var(--line);border-radius:var(--radius);padding:40px 24px;text-align:center;color:var(--ink-soft)}
+.empty b{display:block;font-size:17px;color:var(--ink);margin-bottom:6px;font-family:"Archivo",sans-serif}
+
+/* ---------- order list ---------- */
+.fab{
+  position:fixed;right:20px;bottom:20px;z-index:40;
+  background:var(--ink);color:#fff;border:0;border-radius:40px;
+  padding:14px 20px;font-weight:600;font-size:14px;
+  box-shadow:0 8px 28px rgba(7,34,46,.32);display:flex;align-items:center;gap:10px;
+}
+.fab b{background:var(--cyan);color:var(--ink);border-radius:20px;padding:1px 9px;font-family:"IBM Plex Mono",monospace;font-size:13px}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:min(430px,100%);background:#fff;z-index:60;
+  box-shadow:-20px 0 60px rgba(7,34,46,.24);display:flex;flex-direction:column;
+  transform:translateX(102%);transition:transform .28s cubic-bezier(.4,0,.2,1);
+}
+.drawer.open{transform:none}
+.scrim{position:fixed;inset:0;background:rgba(7,34,46,.42);z-index:50;opacity:0;pointer-events:none;transition:opacity .28s}
+.scrim.open{opacity:1;pointer-events:auto}
+.dhead{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.dhead h2{font-size:19px}
+.dhead p{margin:2px 0 0;font-size:12.5px;color:var(--ink-soft)}
+.x{border:0;background:var(--porcelain);border-radius:8px;width:34px;height:34px;font-size:18px;color:var(--ink-soft);line-height:1}
+.dbody{flex:1;overflow:auto;padding:8px 20px}
+.line{padding:13px 0;border-bottom:1px solid #EDF2F4}
+.line-t{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.line-n{font-weight:600;font-size:14px;line-height:1.3}
+.line-v{font-size:12.5px;color:var(--ink-soft);margin-top:3px}
+.line-b{display:flex;align-items:center;gap:8px;margin-top:9px}
+.step{border:1px solid var(--line);background:#fff;width:28px;height:28px;border-radius:6px;font-size:16px;line-height:1;color:var(--ink)}
+.step:hover{border-color:var(--teal);color:var(--teal)}
+.qty{font-family:"IBM Plex Mono",monospace;font-weight:600;min-width:34px;text-align:center}
+.rm{margin-left:auto;border:0;background:transparent;color:#9AAEB5;font-size:12.5px}
+.rm:hover{color:var(--clay);text-decoration:underline}
+.dfoot{padding:16px 20px;border-top:1px solid var(--line);background:var(--porcelain);display:grid;gap:8px}
+.btn{border:0;border-radius:8px;padding:12px 14px;font-weight:600;font-size:14px;text-align:center;text-decoration:none;display:block}
+.btn-p{background:var(--teal);color:#fff}
+.btn-p:hover{background:#0B6874}
+.btn-s{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.btn-s:hover{border-color:var(--ink-soft)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dempty{text-align:center;color:var(--ink-soft);padding:56px 20px;font-size:14px}
+.dempty b{display:block;font-family:"Archivo",sans-serif;color:var(--ink);font-size:17px;margin-bottom:6px}
+
+/* ---------- toast + footer ---------- */
+.toast{
+  position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:80;
+  background:var(--ink);color:#fff;padding:11px 18px;border-radius:8px;font-size:13.5px;
+  opacity:0;pointer-events:none;transition:all .22s;box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+footer{background:var(--ink);color:#9EC5D0;padding:34px 20px 60px;font-size:13px}
+.fin{max-width:1240px;margin:0 auto;display:flex;gap:32px;flex-wrap:wrap;justify-content:space-between}
+footer b{color:#fff;display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}
+footer a{color:#fff}
+.offices{display:flex;gap:26px;flex-wrap:wrap}
+.offices div{font-size:13px}
+.offices span{display:block;color:#7FAEBC;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr;gap:0}
+  .rail{position:static;padding-top:18px}
+  .catlist{flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+  .cat{width:auto;white-space:nowrap;background:#fff;border:1px solid var(--line)}
+  .cat span{display:none}
+  .results{padding-top:16px}
+  .pageref{display:none}
+}
+@media (max-width:560px){
+  .vt th:nth-child(3),.vt td:nth-child(3){display:none}
+  .card{padding:14px 12px 4px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+@media print{
+  .masthead,.rail,.fab,.scrim,.resbar,footer{display:none}
+  .drawer{position:static;transform:none;box-shadow:none;width:100%}
+  .shell{display:block}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brandline"><b>Apple Med Trading L.L.C</b> <span>Dental product catalogue · rev. 27-12-2022</span></div>
+    <h1>Find any item by name, code or size.</h1>
+    <p class="sub">Search the full dental range, pick the exact shade, size and pack you need, then send the list with item codes straight to sales.</p>
+    <div class="searchwrap">
+      <div class="searchbox">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" autocomplete="off" placeholder="Try: composite, A3, gloves M, EM-2552, 27G, autoclave…" aria-label="Search the catalogue">
+        <button class="clearbtn" id="clear" hidden>Clear</button>
+      </div>
+      <p class="hint"><b>Tip:</b> search item codes directly — <span class="mono">TP-2066A2</span>, <span class="mono">EM-4104</span>, <span class="mono">P100109</span>.</p>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" aria-label="Categories">
+    <h2>Sections</h2>
+    <div class="catlist" id="cats"></div>
+  </nav>
+  <main class="results">
+    <div class="resbar">
+      <p class="count" id="count"></p>
+    </div>
+    <div id="grid"></div>
+  </main>
+</div>
+
+<button class="fab" id="fab" aria-label="Open order list">Order list <b id="fabn">0</b></button>
+<div class="scrim" id="scrim"></div>
+
+<aside class="drawer" id="drawer" aria-label="Order list" aria-hidden="true">
+  <div class="dhead">
+    <div>
+      <h2>Order list</h2>
+      <p id="dcount">Nothing added yet</p>
+    </div>
+    <button class="x" id="close" aria-label="Close order list">×</button>
+  </div>
+  <div class="dbody" id="dbody"></div>
+  <div class="dfoot">
+    <a class="btn btn-p" id="mail" href="#">Email this list to sales</a>
+    <div class="row2">
+      <button class="btn btn-s" id="copy">Copy as text</button>
+      <button class="btn btn-s" id="clearlist">Clear list</button>
+    </div>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="fin">
+    <div>
+      <b>Contact</b>
+      <a href="mailto:sales@applemed.ae">sales@applemed.ae</a> · <a href="https://applemed.ae">applemed.ae</a>
+    </div>
+    <div class="offices">
+      <div><span>Dubai</span>04 252 0481</div>
+      <div><span>Sharjah</span>06 539 0262</div>
+      <div><span>Abu Dhabi</span>02 641 6075</div>
+      <div><span>Al Ain</span>03 7809076</div>
+      <div><span>Oman</span>+968 24033760</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============ CATALOGUE DATA ============
+   v = [item code, size / shade / type, packing]
+   pk = default packing applied when a variant leaves it blank        */
+const DATA = [
+/* ---------- DENTAL MATERIALS ---------- */
+{c:"Dental Materials",b:"Imicryl",p:1,n:"Universal Bond – Self Etch",d:"MDP monomer bond for total-etch, self-etch or selective-etch. Zero sensitivity, high humidity tolerance. Also a protective varnish for glass ionomer fillings.",v:[["TP-2029","","5g bottle"]]},
+{c:"Dental Materials",b:"Imicryl",p:1,n:"Microhybrid Composite (Nova Compo MHC)",d:"Universal composite with superior aesthetics, high radiopacity and no sticking to instruments. Excellent wear resistance and polishability.",pk:"2g syringe",v:[["TP-2066A1","Shade A1"],["TP-2066A2","Shade A2"],["TP-2066A3","Shade A3"],["TP-2066A3.5","Shade A3.5"],["TP-2066-B1","Shade B1"],["TP-2066-B2","Shade B2"],["TP-2066UD","Shade UD"],["TP-2066A02","Shade 0A2"]]},
+{c:"Dental Materials",b:"Imicryl",p:1,n:"Nano-Hybrid Composite (Nova Compo C)",d:"Class I–V restorations, anterior and posterior, fissure sealing, splinting of mobile teeth and veneering of discoloured anterior teeth. Shades A02, A1, A2, A3, A3.5, B1, B2.",v:[["TP-2043A2","Shade A2","2g syringe"]]},
+{c:"Dental Materials",b:"Imicryl",p:1,n:"Posterior Composite (Nova Compo HS)",d:"Posterior restorations including occlusal surfaces, core build-ups and splinting. BIS-GMA with ultra low shrinkage monomer, 83–85% filler by weight.",v:[["TP-2072A2","Shade A2","4g syringe"]]},
+{c:"Dental Materials",b:"Imicryl",p:1,n:"Flow Composite (Nova Compo HF)",d:"Initial layer under Class I–V restorations, cervical caries, root erosion, wedge-shaped defects, blocking out undercuts and fissure sealing.",pk:"2g syringe",v:[["TP-2026A1","Shade A1"],["TP-2026A2","Shade A2"],["TP-2026A3","Shade A3"],["TP-2026A3.5","Shade A3.5"]]},
+{c:"Dental Materials",b:"Imicryl",p:1,n:"Self Bond & Etch Flow Composite (Nova Compo SF)",d:"Self-adhering flowable composite with MDP and 4-META. Bonds and seals without a separate etchant or adhesive. Shades A1–B2.",v:[["TP-2026SFA2","Shade A2","1 x 2g"]]},
+{c:"Dental Materials",b:"Imicryl",p:1,n:"Flowable Compomer (Nova Compomer Flow)",d:"Compomer-based light-curing restorative with high fluoride release — combines the benefits of glass ionomers and composites.",pk:"2g syringe",v:[["TP-2039A1","Shade A1"],["TP-2039A2","Shade A2"],["TP-2039A3","Shade A3"]]},
+{c:"Dental Materials",b:"Imicryl",p:1,n:"GIC Filling Cement capsules (Nova Glass II F)",d:"Class I and II restorations in deciduous and permanent teeth, Class III–V and root surface restorations, core build up, fissure sealant and base material.",v:[["TP-2031A2","Shade A2","10 x (0.40g + 0.11g) caps"]]},
+{c:"Dental Materials",b:"Imicryl",p:1,n:"GIC Filling Cement – Light Cure (Nova Glass II LC)",d:"Class III and V restorations, cervical erosions, primary teeth restoration, core build up, base or liner.",v:[["TP-2133-A3","Shade A3","10 x (0.33g + 0.10g) caps"]]},
+{c:"Dental Materials",b:"Imicryl",p:2,n:"GIC Liner (Nova Glass GL)",d:"Light-cure glass ionomer liner. Bacteriostatic effect, high biocompatibility, universal white and transparent shades.",v:[["TP-2017","","2g syringe + applicator"]]},
+{c:"Dental Materials",b:"Imicryl",p:2,n:"Tray Cleaning Powder (Traysemme)",d:"Removes silicone, alginate and gypsum from trays and instruments. pH neutral — 1000g of concentrate cleans more than 500 trays.",v:[["TP-1052","","1 x 505ml"]]},
+{c:"Dental Materials",b:"Imicryl",p:2,n:"Etching Gel 37% (Panora 200)",d:"37% phosphoric acid. Quick, constant viscosity, distinguishable colour against the tooth.",v:[["TP-2054","","1 x 12ml syringe + applicators"],["TP-2052","","2 x 3ml syringe + applicators"]]},
+{c:"Dental Materials",b:"Imicryl",p:2,n:"GIC Filling Cement powder/liquid (Nova Glass F)",d:"Permanent filling cement with high long-term fluoride release, extended working time and low film thickness.",v:[["TP-2003","","35g powder + 15ml liquid"]]},
+{c:"Dental Materials",b:"Imicryl",p:2,n:"GIC Luting Cement (Nova Glass CX)",d:"Luting cement with optimum powder/liquid wetting. Universal and white shades, powder dosage system.",v:[["TP-2004","","35g powder + 15ml liquid"]]},
+{c:"Dental Materials",b:"Imicryl",p:2,n:"Self Adhesive Cement (Nova Resin)",d:"Dual-cure self-adhesive resin cement for indirect restorations in all ceramic, composite, metal-ceramic and metal. No additional bonding agent needed.",v:[["TP-2011","","11g syringe"]]},
+{c:"Dental Materials",b:"Imicryl",p:2,n:"MTA (Biofactor)",d:"Mineral trioxide aggregate, tricalcium silicate bioactive repair material — pulpotomy, pulp capping, perforation, root end filling, resorption, apexification and apical plug.",v:[["TP-2120A","","0.2g powder + 1.5ml liquid + 1 syringe"]]},
+{c:"Dental Materials",b:"Imicryl",p:2,n:"Prosimi E.D.T.A. Transparent",d:"Root canal preparation with files and reamers. For calcifications and narrow canals in posterior teeth, smear layer removal.",v:[["TP-0916","","1 x 3ml + applicators"]]},
+{c:"Dental Materials",b:"Imicryl",p:2,n:"Porcelain & Ceramic Etchant (Royalcry)",d:"9.6% hydrofluoric acid gel to roughen the cementation surface of glass ceramic restorations.",v:[["TP-3218","","3g syringe + applicator"]]},
+{c:"Dental Materials",b:"Imicryl",p:3,n:"Calcium Hydroxide light cure (Calciplus LC)",d:"Calcium silicate liner for direct and indirect pulp capping. Light curing.",v:[["TP-2015","","2g syringe + applicator"]]},
+{c:"Dental Materials",b:"Imicryl",p:3,n:"Calcium Hydroxide Paste (Calciplus RL)",d:"Radiopaque iodoform calcium hydroxide paste. Temporary disinfectant dressing, direct and indirect pulp capping.",v:[["TP-2104","","2g syringe + applicator"]]},
+{c:"Dental Materials",b:"Imicryl",p:3,n:"A-Silicone Impression Material (Spirion)",d:"Polyvinyl siloxane elastomeric impression material, addition cured. Flexible working time and fast set, for two-stage and one-stage technique.",v:[["TP-1034","Putty","2 x 300ml"],["TP-1035","Extra flowable light","2 x 50ml"],["TP-1036","Light body / normal flowable","2 x 50ml"]]},
+{c:"Dental Materials",b:"Imicryl",p:3,n:"Fissure Sealant (Bisotic)",d:"High stability and perfect adhesion to enamel. Bacteriostatic, 50–55% inorganic filler for abrasion proofness.",v:[["TP-2023","","1 x 2.5g"]]},
+{c:"Dental Materials",b:"Imicryl",p:3,n:"Colour Changing Fissure Sealant (Fissured Nova Plus)",d:"Colour changing sealant with long-term fluoride release and high stability.",v:[["TP-2022","","2 x 2.5g"]]},
+{c:"Dental Materials",b:"Imicryl",p:3,n:"Fluoride Gel (Polimo)",d:"For children and adults to prevent decay — 1.23% acidulated phosphate fluoride and 2.00% neutral fluoride ion.",v:[["TP-1014CH","Cherry"],["TP-1014MI","Mint"],["TP-1014PI","Pineapple"],["TP-1014ST","Strawberry"]]},
+{c:"Dental Materials",b:"Imicryl",p:3,n:"Prophy Paste capsules (Imprint)",d:"Prophylaxis paste with 1.23% fluoride ions. Flavours: orange, gum, strawberry, chocolate, mint, banana, vanilla, melon, cherry, pineapple.",v:[["TP-1010F","","100 capsules/pkt"]]},
+{c:"Dental Materials",b:"Imicryl",p:3,n:"Prophy Paste jar (Imprint)",d:"Professional cleaning and polishing — coarse for plaque and stains, medium for plaque, fine for light plaque and polishing. Contains no pumice.",v:[["TP-1010B","","340g/jar"]]},
+{c:"Dental Materials",b:"Imicryl",p:3,n:"Fluoride Varnish (Polimo)",d:"5% sodium fluoride varnish for hypersensitive teeth, enamel resistance, sensitivity after whitening and exposed dentin or root surfaces.",v:[["TP-1016","","Disposable package with brush, 0.4ml"]]},
+{c:"Dental Materials",b:"Technical & General",p:4,n:"Bite Registration – A Silicone",d:"High precision bite registration for accurate detail reproduction and dimensional stability.",v:[["EM-9794","","2 x 50ml"]]},
+{c:"Dental Materials",b:"Technical & General",p:4,n:"Root Canal Sealer (tg adseal)",d:"Root canal filling material with silicone and MTA components included.",v:[["P100109","","5ml x 1 syringe"]]},
+{c:"Dental Materials",b:"Technical & General",p:4,n:"Temporary Cement (CemTemp NE)",d:"Non-eugenol temporary cement.",v:[["EM-12000","","2 x 5ml syringe"]]},
+{c:"Dental Materials",b:"Technical & General",p:4,n:"Temporary Crown & Bridge (Tempolux)",d:"Light-cure temporary crown resin.",v:[["EM-11682","","1 x 50ml + 10 tips (10:1)"]]},
+{c:"Dental Materials",b:"Technical & General",p:4,n:"Multi Purpose Dispenser",d:"Automix dispenser — multi cartridge-size and multi mixing ratio.",v:[["EM-11694","","Each"]]},
+{c:"Dental Materials",b:"Technical & General",p:4,n:"Core Build-up Resin (tgCore)",d:"Dual-cure composite for post cementation and build-ups.",v:[["EM-14935","","2 x 5ml"]]},
+{c:"Dental Materials",b:"Technical & General",p:4,n:"Mouth Wash Tablet",d:"Gargle and mouthwash tablets against periodontal disease and bacterial plaque.",v:[["EM-9936","","1000 tab/bottle"]]},
+{c:"Dental Materials",b:"Pyrax",p:5,n:"Calci Paste+ / Pulpotomy",d:"Calcium hydroxide with barium sulphate. Water soluble.",v:[["P100116","","2 x 2g syringe & 4 tips"]]},
+{c:"Dental Materials",b:"Pyrax",p:5,n:"Calcium Hydroxide Paste (pulp capping)",d:"Iodoform and barium sulphate improve antibacterial action and radiopacity.",v:[["P100115","","2 x 2g syringe"]]},
+{c:"Dental Materials",b:"Pyrax",p:5,n:"Calcium Hydroxide / Pulp Cap (LC-Cal Paste)",d:"Urethane dimethacrylate, triethylene glycol dimethacrylate, silanated barium glass, amorphous fumed silica, barium sulphate, calcium hydroxide.",v:[["P100108","","1 x 2g syringe with 8 applicator tips"]]},
+{c:"Dental Materials",b:"Pyrax",p:5,n:"R.C. Clean / GP Solvent",d:"Main active ingredient is d-limonene oil, a natural substance extracted from orange oil.",v:[["P100107","","15ml"]]},
+{c:"Dental Materials",b:"Pyrax",p:5,n:"Root Canal Sealant (zinc oxide)",d:"15g powder, 10ml liquid, powder spoon, dispensing dropper and mixing pad. Zinc oxide, barium sulfate, sodium borate, iodoform and eugenol.",v:[["P100109","","1 set/pack"]]},
+{c:"Dental Materials",b:"Pyrax",p:5,n:"Endo Canal Gel",d:"17% disodium EDTA, carbamide peroxide, polysorbate, purified water and excipients.",v:[["P100103","","2 syringes x 1.5g"]]},
+{c:"Dental Materials",b:"Pyrax",p:5,n:"Calcium Hydroxide Powder (Cavipac)",d:"Root canal therapy, insulation in deep cavities, temporary root filling and pulp capping.",v:[["EM-7062","","5 x 15g"]]},
+{c:"Dental Materials",b:"Pyrax",p:5,n:"EDTA 17% Solution",d:"Disodium EDTA and purified water.",v:[["P100102","","100ml"]]},
+{c:"Dental Materials",b:"Pyrax",p:5,n:"Pyrocresol / Pulp Devitalization Solution",d:"Root canal disinfectant — glycerine, formaocresol and excipient.",v:[["P100106","","15ml"]]},
+{c:"Dental Materials",b:"Pyrax",p:6,n:"P-Devit / Pulp Devitalizer",d:"Contains para formaldehyde and excipients.",v:[["P100119","","2 x 1.5g syringe"]]},
+{c:"Dental Materials",b:"Pyrax",p:6,n:"Sodium Hypochlorite 3%",d:"Irrigation, debridement and disinfection of root canals during endodontic treatment.",v:[["EM-8000","3%","500ml"]]},
+{c:"Dental Materials",b:"Pyrax",p:6,n:"Tooth Etch – Caviact Gel",d:"Ortho phosphoric acid, methylene blue dye, benzalkonium chloride, purified water and thickening agent.",v:[["P100104","","1 x 5ml syringe"]]},
+{c:"Dental Materials",b:"Pyrax",p:6,n:"Alvo Dough (alveoles paste)",d:"Anaesthetic and antiseptic after dental extraction. Quick bleeding stopper.",v:[["P100101","","12g"]]},
+{c:"Dental Materials",b:"Pyrax",p:6,n:"Haemo Stop",d:"25% buffered aluminium chloride liquid for stopping minor gingival bleeding.",v:[["EM-9878","25%","15ml"]]},
+{c:"Dental Materials",b:"Pyrax",p:6,n:"Polycarboxylate Temp Cement",d:"Temporary filling, crowns, bridges and brackets, cavity lining. Radiopaque. 30g powder jar, 15ml liquid, spoon and mixing pad.",v:[["P100118","","1 set/box"]]},
+{c:"Dental Materials",b:"Pyrax",p:6,n:"Zinc Oxide Powder Temporary Cement",d:"Low-strength base used as a temporary cement filling for semi-permanent restoration. Lead and arsenic free.",v:[["EM-7193","","100g"]]},
+{c:"Dental Materials",b:"Pyrax",p:6,n:"Temporary Filling Paste (Temp Paste)",d:"Zinc oxide, calcium sulphate, plasticizers, resins, peppermint oil and excipients.",v:[["P100110","","25g"]]},
+{c:"Dental Materials",b:"Pyrax",p:6,n:"Diestone (Himstone Type IV)",d:"Synthetic resin and alpha gypsum blend — improved surface smoothness and resistance to abrasion.",v:[["EM-7249","","2kg"]]},
+{c:"Dental Materials",b:"Pyrax",p:7,n:"Modelling Wax",d:"All-season, multi-utility dental modelling wax that carves without chipping.",v:[["P100115","","200g"]]},
+{c:"Dental Materials",b:"Pyrax",p:7,n:"Polishing Paste – Prophy (grit medium)",d:"Sodium fluoride, glycerin and silica in an aqueous flavored base.",v:[["P100111","","75g"]]},
+{c:"Dental Materials",b:"Pyrax",p:7,n:"Whitening Kit (Kris UltraWhite 35%)",d:"2 liquids 2.25g and 2 powders 0.30g with gingival barrier and 2 prebent tips. Enough for 2 patients.",v:[["EM-7549","35%","1 set/pack"]]},
+{c:"Dental Materials",b:"Pyrax",p:7,n:"Eugenol",d:"95–99% pure oil of cloves. Alcohol free.",v:[["P100105","","100ml"]]},
+{c:"Dental Materials",b:"Pyrax",p:7,n:"Alginate (Accurex) fast set",d:"Chromatic alginate with mint flavour for study models, antagonists in fixed and removable prosthesis. High precision, high elasticity, dust free.",v:[["P100114","","451g"]]},
+{c:"Dental Materials",b:"Pyrax",p:7,n:"Tracing Stick",d:"Fast and uniform plasticity, warms up easily and hardens quickly in cold water.",v:[["EM-7058","","10 sticks/box"]]},
+{c:"Dental Materials",b:"Pyrax",p:7,n:"Amalgam Spill 2 (Aloysil)",d:"Pre-dosed non-gamma 2 fine grain 48% amalgam powder.",v:[["P100113","","50 capsules"]]},
+{c:"Dental Materials",b:"Pyrax",p:7,n:"A-Silicone Impression Kit (Imprisil)",d:"Vinyl polysiloxane impression material kit.",v:[["EM-9882","Putty fast set kit","2 x 400g"],["EM-9882","Light body fast set","2 x 50ml"]]},
+{c:"Dental Materials",b:"Pyrax",p:7,n:"Haemostatic Sponge (Haemosponge)",d:"Absorbable gelatin sponge — absorbent and antiseptic, stimulates tissue regeneration.",v:[["P100120","","32 pcs/pkt"]]},
+
+/* ---------- DISINFECTANTS ---------- */
+{c:"Disinfectants",b:"Medalkan",p:8,n:"Medasept 100 – surface spray",d:"Fast acting broad spectrum antimicrobial cleaner and disinfectant for surfaces of medical equipment. 30 second contact time.",v:[["EM-13550","","1 litre"],["EM-13555","","5 litres"]]},
+{c:"Disinfectants",b:"Medalkan",p:8,n:"Nosofast TB – surface spray",d:"Ready to use foaming disinfectant spray with a broad antimicrobial spectrum. 2 minute contact time.",v:[["EM-13575","","1 litre"]]},
+{c:"Disinfectants",b:"Medalkan",p:8,n:"Medaprotect – for instruments",d:"High-performance concentrate for cleaning and disinfection of heat-resistant and heat-sensitive instruments. 1% solution.",v:[["EM-13545","","1 litre"]]},
+{c:"Disinfectants",b:"Medalkan",p:8,n:"Medazym – enzymatic detergent",d:"Concentrated tri-enzymatic detergent for surgical instruments and endoscopes prior to disinfection or sterilization. 1% solution.",v:[["EM-13565","","1 litre"]]},
+{c:"Disinfectants",b:"Medalkan",p:8,n:"Nosoclean – for instruments",d:"Cleaning and disinfection of surgical, dental, endoscopic and anaesthetic instruments and laboratory glassware. 2% solution.",v:[["EM-13570","","5 litres"]]},
+{c:"Disinfectants",b:"Medalkan",p:8,n:"Medabur – for burs & rotary files",d:"Ready to use detergent and disinfectant for rotary dental microinstruments. Removes blood and saliva. 5 minute contact time.",v:[["EM-13535","","2.5 litres"]]},
+{c:"Disinfectants",b:"Medalkan",p:8,n:"Disinfectant for dental impressions",d:"Ready to use foaming spray for quick and easy cleaning and disinfection of dental impressions. 2 minute contact time.",v:[["EM-13540","","1 litre"]]},
+{c:"Disinfectants",b:"Medalkan",p:8,n:"Medaspir – for suction systems",d:"High efficiency concentrate for cleaning and disinfection of vacuum systems, amalgam separators and spittoons. 2% / 15 minutes.",v:[["EM-13570","","2.5 litres"]]},
+{c:"Disinfectants",b:"Medalkan",p:8,n:"Fast acting disinfectant wipes – alcohol based",d:"30% ethanol, 10% 2-propanol, 0.25% didecyl-methylpoly(oxethyl) ammonium propionate.",v:[["EM-1401","","100 pcs"],["EM-1402","","200 pcs"]]},
+{c:"Disinfectants",b:"Medalkan",p:8,n:"Fast acting disinfectant wipes – alcohol free",d:"0.84% hydrogen peroxide, 0.56% alkyldimethyl benzylammonium chloride, 0.49% didecyldimethyl ammonium chloride.",v:[["EM-1401","","100 pcs"],["EM-1402","","200 pcs"]]},
+
+/* ---------- STERILIZATION ---------- */
+{c:"Sterilization",b:"Euromed",p:9,n:"Self Sealing Sterilization Pouch",d:"High-grade medical paper, 3 bar seal, easy to tear and non-stick. Steam indicator turns blue to black, EO turns pink to yellow.",pk:"200 pcs/pkt",v:[["EM-4083","2 1/4 x 2 3/4 in (63 x 100mm)"],["EM-4089","2 1/4 x 4 in (57 x 130mm)"],["EM-4092","2 1/4 x 7 1/2 in (70 x 220mm)"],["EM-4094","2 3/4 x 9 in (70 x 260mm)"],["EM-4097","3 1/2 x 5 1/4 in (90 x 165mm)"],["EM-4099","3 1/2 x 10 in (90 x 260mm)"],["EM-4104","6 x 10 in (155 x 260mm)"],["EM-4109","7 1/2 x 13 in (190 x 360mm)"],["EM-4112","9 x 15 in (230 x 395mm)"],["EM-4114","12 x 15 in (305 x 430mm)"],["EM-4116","12 x 18 in (305 x 500mm)"]]},
+{c:"Sterilization",b:"Euromed",p:9,n:"Heat Sealing Sterilization Reel",d:"Medical grade paper and transparent polymer, compatible with steam autoclave. Two indicators.",v:[["EM-4129","55 x 200m","12 rolls/ctn"],["EM-4131","75 x 200m","8 rolls/ctn"],["EM-4134","100 x 200m","6 rolls/ctn"],["EM-4136","150 x 200m","4 rolls/ctn"],["EM-4137","200 x 200m","2 rolls/ctn"],["EM-4139","250 x 200m","2 rolls/ctn"],["EM-4141","300 x 200m","2 rolls/ctn"]]},
+{c:"Sterilization",b:"Euromed",p:10,n:"Bowie Dick Test Pack",d:"Pre-assembled single use test packs to evaluate air removal in pre-vacuum sterilizers.",v:[["EM-0401","115 x 125mm","100 tests/ctn"]]},
+{c:"Sterilization",b:"Euromed",p:10,n:"Biological Indicator",d:"Self-contained biological indicators — reduce cross infection risk and minimise false positives.",v:[["EM-0390","","100 pcs/pkt"]]},
+{c:"Sterilization",b:"Euromed",p:10,n:"Autoclave Tape",d:"Versatile tape for all wraps including non-woven and linen.",v:[["EM-4152","25mm x 50m","48 rolls/pkt"]]},
+{c:"Sterilization",b:"Euromed",p:10,n:"Steam Indicator Strips",d:"Latex-free paper strips with a distinctive colour change when exposed to steam sterilization.",pk:"400 pcs/pkt",v:[["EM-4012","Class 4"],["EM-4018","Class 5"],["EM-4024","Class 6"]]},
+
+/* ---------- BURS ---------- */
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – TF series, taper flat end",d:"Standard grit, blue ring. Sold in packs of 5.",pk:"5 pcs/pack",v:[["TF-11","ISO 173/014"],["TF-12","ISO 173/016"],["TF-13","ISO 173/018"],["TF-14","ISO 172/023"],["TF-21","ISO 171/016"],["TF-31","ISO 170/016"]]},
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – TR series, taper round end",d:"Standard grit, blue ring.",pk:"5 pcs/pack",v:[["TR-11","ISO 199/016"],["TR-12","ISO 199/016"],["TR-13","ISO 198/018"],["TR-15","ISO 200/022"],["TR-21","ISO 197/021"],["TR-62","ISO 197/018"]]},
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – TC series, taper conical",d:"Standard grit, blue ring.",pk:"5 pcs/pack",v:[["TC-11","ISO 160/016"],["TC-16","ISO 166/018"],["TC-21","ISO 160/014"],["TC-26","ISO 160/012"]]},
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – FO series, flame ogival end",d:"Standard grit, blue ring.",pk:"5 pcs/pack",v:[["FO-11","ISO 299/012"],["FO-21","ISO 298/014"],["FO-25","ISO 257/028"],["FO-27","ISO 257/032"],["FO-32","ISO 257/018"]]},
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – SF series, straight flat end",d:"Standard grit, blue ring.",pk:"5 pcs/pack",v:[["SF-11","ISO 111/012"],["SF-12","ISO 111/014"],["SF-13","ISO 111/016"],["SF-21","ISO 110/014"],["SF-31","ISO 190/013"],["SF-41","ISO 109/010"]]},
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – SO series straight ogival & WR series",d:"Standard grit, blue ring.",pk:"5 pcs/pack",v:[["SO-20","ISO 288/012"],["SO-21","ISO 289/014"],["WR-13","ISO 068/042"]]},
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – EX series, special extra shape",d:"Standard grit, blue ring. EX-24 and EX-28 are special shapes.",pk:"5 pcs/pack",v:[["EX-11","ISO 039/032"],["EX-12","ISO 039/035"],["EX-20","ISO 237/018"],["EX-21","ISO 237/021"],["EX-24","ISO 220/017"],["EX-28","ISO 005/018"]]},
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – BR series, ball round type",d:"Standard grit, blue ring.",pk:"5 pcs/pack",v:[["BR-31","ISO 001/008"],["BR-40","ISO 001/016"],["BR-41","ISO 001/014"],["BR-45","ISO 001/010"],["BR-46","ISO 001/012"],["BR-49","ISO 001/008"]]},
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – SI series single inverted & depth cutting",d:"Standard grit, blue ring. DC-1 is a depth cutting bur.",pk:"5 pcs/pack",v:[["SI-46","ISO 010/012"],["SI-47","ISO 010/014"],["SI-48","ISO 010/016"],["DC-1","ISO 834/003"]]},
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – C series, coarse",d:"Coarse grit, green ring.",pk:"5 pcs/pack",v:[["TF-13C","ISO 173/018"],["TR-13C","ISO 198/018"],["TR-62C","ISO 197/018"],["TC-11C","ISO 160/016"],["FO-32C","ISO 275/018"],["SF-12C","ISO 111/014"],["BR-31C","ISO 001/018"],["SI-47C","ISO 010/014"],["WR-13C","ISO 068/042"]]},
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – F series, fine",d:"Fine grit, red ring.",pk:"5 pcs/pack",v:[["TF-12F","ISO 173/016"],["TF-21F","ISO 177/016"],["TR-11F","ISO 199/016"],["TR-21F","ISO 197/016"],["TC-11F","ISO 160/014"],["TC-21F","ISO 160/014"],["FO-21F","ISO 298/014"],["EX-21F","ISO 237/021"],["BR-49F","ISO 001/006"],["WR-13F","ISO 068/044"]]},
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – EF series, extra fine",d:"Extra fine grit, yellow ring.",pk:"5 pcs/pack",v:[["TF-12EF","ISO 173/016"],["TF-21EF","ISO 171/016"],["TR-11EF","ISO 199/016"],["TR-13EF","ISO 198/018"],["TR-21EF","ISO 197/016"],["TC-11EF","ISO 160/016"],["TC-21EF","ISO 160/014"],["FO-21EF","ISO 298/014"],["EX-21EF","ISO 237/021"]]},
+{c:"Burs",b:"PreciDent",p:11,n:"FG Diamond Burs – SC series, super coarse",d:"Super coarse grit, black ring.",pk:"5 pcs/pack",v:[["TF-12SC","ISO 173/018"],["TF-14SC","ISO 160/018"],["TF-31SC","ISO 170/016"],["TR-13SC","ISO 198/020"],["TR-21SC","ISO 197/018"],["TC-11SC","ISO 160/018"],["WR-13SC","ISO 068/044"]]},
+{c:"Burs",b:"PreciDent",p:12,n:"Contra / RA Diamond Burs – standard",d:"Right angle diamond burs, standard grit, blue ring.",pk:"5 pcs/pack",v:[["TF-11","ISO 173/014"],["TF-12","ISO 173/016"],["TC-11","ISO 160/016"],["TR-11","ISO 199/016"],["TR-12","ISO 199/016"],["SF-11","ISO 111/012"],["SF-12","ISO 111/014"],["SF-13","ISO 111/016"],["SF-31","ISO 190/013"],["SF-41","ISO 109/010"],["SO-21","ISO 289/014"],["SI-46","ISO 010/012"],["SI-47","ISO 010/014"],["BR-31","ISO 001/018"],["BR-45","ISO 001/010"],["BR-49","ISO 001/008"]]},
+{c:"Burs",b:"PreciDent",p:12,n:"Contra / RA Diamond Burs – extra fine",d:"Right angle diamond burs, extra fine grit, yellow ring.",pk:"5 pcs/pack",v:[["TF-12EF","ISO 173/016"],["TR-11EF","ISO 199/016"],["TC-11EF","ISO 160/016"]]},
+{c:"Burs",b:"PreciDent",p:12,n:"Carbide Ball Burs – slow speed HP",d:"Preciburs carbide ball, overall length 44.50mm.",pk:"10 pcs/pack",v:[["HP1/4","Ø0.500, head 0.42"],["HP1/2","Ø0.600, head 0.55"],["HP1","Ø0.800, head 0.55"],["HP2","Ø1.000, head 0.90"],["HP3","Ø1.200, head 1.10"],["HP4","Ø1.400, head 1.35"],["HP5","Ø1.600, head 1.50"],["HP6","Ø1.800, head 1.72"],["HP7","Ø2.100, head 1.92"],["HP8","Ø2.300, head 2.15"]]},
+{c:"Burs",b:"PreciDent",p:12,n:"Carbide Flat / Taper Burs – slow speed HP",d:"Preciburs carbide flat and taper, overall length 44.50mm.",pk:"10 pcs/pack",v:[["HP700","Ø1.000, head 3.95"],["HP701","Ø0.600, head 3.95"],["HP702","Ø0.800, head 4.50"],["HP703","Ø1.000, head 5.00"],["HP704","Ø1.200, head 5.00"],["HP563L","Ø2.30, head 5.00"]]},
+{c:"Burs",b:"PreciDent",p:12,n:"Carbide Flat / Taper Burs – FG",d:"Preciburs carbide flat and taper, friction grip.",pk:"10 pcs/pack",v:[["FG699L","Ø0.800, head 3.40, OAL 19.00"],["FG169L","Ø0.800, head 3.40, OAL 19.00"],["FX701","Ø0.800, head 3.80, OAL 25.00"],["FG557","Ø1.000, head 3.70, OAL 19.00"],["FX557","Ø1.000, head 3.80, OAL 25.00"],["FG701","Ø0.800, head 3.40, OAL 19.00"],["FG702","Ø1.100, head 4.30, OAL 19.00"],["FG245","Ø3.00, head 3.40, OAL 19.00"]]},
+{c:"Burs",b:"PreciDent",p:12,n:"Solid Carbide Ball, Crown Cutter & Endo-Z Bur",d:"Metal cutting crown cutter 1958 and Endo-Z access bur.",pk:"10 pcs/pack",v:[["FG2","Ø1.000, head 0.90, OAL 19.00"],["FG4","Ø1.400, head 1.35, OAL 19.00"],["1958","Ø1.2, head 4.2, OAL 19"],["EO152","Ø0.9, head 9.0, OAL 21.0"]]},
+{c:"Burs",b:"PreciDent",p:12,n:"Endo Access Bur & Crown Preparation Kit",d:"FG endo access bur, 10mm head on a 21mm shank, sizes A1 (Ø1.1), A2 (Ø1.5) and A3 (Ø1.8), one of each. Crown prep kit supplied as a boxed set.",v:[["A1","Ø1.1mm","1x"],["A2","Ø1.5mm","1x"],["A3","Ø1.8mm","1x"],["","Crown preparation kit","Set"]]},
+
+/* ---------- ROTARY FILES ---------- */
+{c:"Rotary Files",b:"",p:13,n:"K Files",d:"ISO sizes 06–140 plus 15-40 and 45-80 assorted, colour coded. Lengths 21mm, 25mm, 28mm and 31mm (06 in 21 and 25mm only).",pk:"6 pcs/pkt",v:[["","21mm — ISO 06 to 140, 15-40, 45-80"],["","25mm — ISO 06 to 140, 15-40, 45-80"],["","28mm — ISO 08 to 140, 15-40, 45-80"],["","31mm — ISO 08 to 140, 15-40, 45-80"]]},
+{c:"Rotary Files",b:"",p:13,n:"H Files",d:"ISO sizes 06–140 plus assorted, colour coded. Lengths 21mm, 25mm, 28mm and 31mm.",pk:"6 pcs/pkt",v:[["","21mm — ISO 06 to 140, 15-40, 45-80"],["","25mm — ISO 06 to 140, 15-40, 45-80"],["","28mm — ISO 08 to 140, 15-40, 45-80"],["","31mm — ISO 08 to 140, 15-40, 45-80"]]},
+{c:"Rotary Files",b:"",p:13,n:"Guttapercha Points .04 taper",d:"",pk:"60 pcs/pkt",v:[["EM-7039","Size 15"],["EM-7040","Size 20"],["EM-7041","Size 25"],["EM-7042","Size 30"],["EM-7043","Size 35"],["EM-7044","Size 40"]]},
+{c:"Rotary Files",b:"",p:13,n:"Guttapercha Points .06 taper",d:"",pk:"60 pcs/pkt",v:[["EM-7045","Size 15"],["EM-7046","Size 20"],["EM-7047","Size 25"],["EM-7048","Size 30"],["EM-7049","Size 35"]]},
+{c:"Rotary Files",b:"",p:13,n:"Guttapercha Points .029 taper",d:"",pk:"200 pcs/pkt",v:[["EM-7050","Size 15"],["EM-7051","Size 15-40"],["EM-7052","Size 20"],["EM-7053","Size 25"],["EM-7054","Size 30"],["EM-7055","Size 35"],["EM-7056","Size 40"],["EM-7057","Size 45-80"]]},
+{c:"Rotary Files",b:"",p:13,n:"Guttapercha Points – Protaper",d:"",pk:"60 pcs/pkt",v:[["EM-7163","F1"],["EM-7164","F2"],["EM-7165","F3"]]},
+{c:"Rotary Files",b:"",p:13,n:"Paper Points .04 taper",d:"",pk:"100 pcs/pkt",v:[["EM-7118","Size 15"],["EM-7119","Size 20"],["EM-7120","Size 25"],["EM-7121","Size 30"],["EM-7122","Size 35"],["EM-7123","Size 40"]]},
+{c:"Rotary Files",b:"",p:13,n:"Paper Points .06 taper",d:"",pk:"100 pcs/pkt",v:[["EM-7124","Size 15"],["EM-7125","Size 20"],["EM-7126","Size 25"],["EM-7127","Size 30"],["EM-7128","Size 35"],["EM-7129","Size 40"]]},
+{c:"Rotary Files",b:"",p:13,n:"Paper Points 0.29 taper",d:"",pk:"200 pcs/pkt",v:[["EM-7130","Size 15"],["EM-7131","Size 20"],["EM-7132","Size 25"],["EM-7133","Size 30"],["EM-7134","Size 35"],["EM-7135","Size 40"],["EM-7136","Size 15-40"],["EM-7137","Size 45-80"]]},
+{c:"Rotary Files",b:"",p:13,n:"Paper Points – Protaper",d:"",pk:"100 pcs/pkt",v:[["EM-7171","F1"],["EM-7172","F2"],["EM-7173","F3"]]},
+{c:"Rotary Files",b:"",p:14,n:"Protaper Gold",d:"",pk:"6 pcs/pkt",v:[["EM-7148","21mm F1"],["EM-7149","21mm F2"],["EM-7150","21mm F3"],["EM-7151","21mm S1"],["EM-7152","21mm S2"],["EM-7153","25mm F1"],["EM-7154","25mm F2"],["EM-7155","25mm F3"],["EM-7156","25mm S1"],["EM-7157","25mm S2"],["EM-7158","31mm F1"],["EM-7159","31mm F2"],["EM-7223","31mm F3"],["EM-7160","31mm S1"],["EM-7161","31mm S2"]]},
+{c:"Rotary Files",b:"",p:14,n:"Protaper Rotary File",d:"",pk:"6 pcs/pkt",v:[["EM-7186","19mm SX"],["EM-7176","21mm F1"],["EM-7178","21mm F2"],["EM-7180","21mm F3"],["EM-7182","21mm S1"],["EM-7184","21mm S2"],["EM-7177","25mm F1"],["EM-7179","25mm F2"],["EM-7181","25mm F3"],["EM-7183","25mm S1"],["EM-7185","25mm S2"]]},
+{c:"Rotary Files",b:"",p:14,n:"Protaper Next",d:"",pk:"6 pcs/pkt",v:[["EM-7167","25mm X1"],["EM-7168","25mm X2"],["EM-7169","25mm X3"]]},
+{c:"Rotary Files",b:"",p:14,n:"Broaches 21mm",d:"Extremely flexible stainless steel to avoid breakage.",pk:"10 pcs/pkt",v:[["EM-7002","Black"],["EM-7004","Blue"],["EM-7006","Green"],["EM-7008","Purple"],["EM-7010","Red"],["EM-7012","White"],["EM-7014","Yellow"]]},
+{c:"Rotary Files",b:"",p:14,n:"Broaches 25mm",d:"Extremely flexible stainless steel to avoid breakage.",pk:"10 pcs/pkt",v:[["EM-7003","Black"],["EM-7005","Blue"],["EM-7007","Green"],["EM-7009","Purple"],["EM-7011","Red"],["EM-7013","White"],["EM-7015","Yellow"]]},
+{c:"Rotary Files",b:"",p:14,n:"Gates Drills",d:"Stainless steel with improved cutting capacity, sizing ring coded on the shank. Recommended speed 800–1200 rpm.",pk:"6 pcs/pkt",v:[["EM-7031","#1"],["EM-7032","#2"],["EM-7033","#3"],["EM-7034","#4"],["EM-7035","#5"],["EM-7036","#6"],["EM-7037","#1-6 L assorted"]]},
+{c:"Rotary Files",b:"",p:14,n:"Paste Carrier",d:"Spring stainless steel with tight wound safety coils at the base of the shank.",pk:"4 pcs/pkt",v:[["EM-7138","Black, 40 – 25mm"],["EM-7139","Blue, 30 – 25mm"],["EM-7140","Green, 35 – 25mm"],["EM-7141","Red, 25 – 25mm"],["EM-7142","Assorted, 25-40 L 25mm"]]},
+
+/* ---------- BIBS & PPE ---------- */
+{c:"Bibs & PPE",b:"",p:15,n:"Dental Bib",d:"Absorbent paper plies with a waterproof plastic backing.",pk:"500 pcs/ctn",v:[["EM-1517","Pink"],["EM-1514","Blue"],["EM-1516","Green"],["EM-10055","Lavender"],["EM-1518","Yellow"]]},
+{c:"Bibs & PPE",b:"",p:15,n:"Tray Paper",d:"Heavy weight paper stock that impedes moisture flow and minimises seep-through.",pk:"250 pcs/pkt",v:[["EM-4572","Blue"],["EM-4573","Green"]]},
+{c:"Bibs & PPE",b:"Euromed",p:15,n:"Surgical Face Mask",d:"SPP + meltblown + SPP. High filtration against virus and bacteria, high quality elastic earloop.",pk:"50 pcs/box",v:[["EM-1834","Ear loop"],["EM-1837","Tie on"]]},
+{c:"Bibs & PPE",b:"",p:15,n:"Lab Coat SMS – blue",d:"Superior fluid and particulate barrier, light chemical splash resistance, breathable cloth-like fabric.",pk:"50 pcs/ctn",v:[["EM-10123","S"],["EM-10122","M"],["EM-10121","L"]]},
+{c:"Bibs & PPE",b:"",p:15,n:"Lab Coat SMS – white",d:"Superior fluid and particulate barrier, light chemical splash resistance, breathable cloth-like fabric.",pk:"50 pcs/ctn",v:[["EM-0821","S"],["EM-0822","M"],["EM-0823","L"]]},
+{c:"Bibs & PPE",b:"",p:15,n:"Isolation Gown SMS",d:"Full front and back coverage for a comfortable fit.",v:[["EM-2401","40 GSM blue","100 pcs/ctn"]]},
+{c:"Bibs & PPE",b:"",p:15,n:"Isolation Gown PP",d:"Basic polypropylene gown in lightweight fluid-repelling material with elastic cuff.",pk:"100 pcs/ctn",v:[["EM-2401","40 GSM blue, non-woven"],["EM-11417","30 GSM blue, non-woven"],["EM-11341","Coated, unisize"]]},
+{c:"Bibs & PPE",b:"",p:15,n:"Surgical Gown Sterile",d:"SMS material, with or without reinforced layer.",pk:"50 pcs/ctn",v:[["EM-4241","S"],["EM-4243","M"],["EM-4245","L"],["EM-4248","XL"],["EM-4250","XXL"]]},
+{c:"Bibs & PPE",b:"",p:15,n:"Bouffant Cap",d:"Non-linting, non-woven.",pk:"100 pcs/pkt",v:[["EM-2699","White"],["EM-2697","Blue"]]},
+{c:"Bibs & PPE",b:"",p:15,n:"Shoe Cover",d:"Available in PE and non-woven materials.",pk:"100 pcs/pkt",v:[["EM-4289","CPE"],["EM-4290","Non-woven"]]},
+
+/* ---------- SLEEVES & COVERS ---------- */
+{c:"Sleeves & Covers",b:"",p:16,n:"Air Water Syringe Sleeve",d:"Fits most air-water syringes. High quality plastic with pre-punched opening.",v:[["EM-0216","","500 pcs/pkt"]]},
+{c:"Sleeves & Covers",b:"",p:16,n:"Handpiece Sleeve",d:"Soft plastic that lets you hold the handpiece easily and keep tactile feel.",pk:"500 pcs/pkt",v:[["EM-7066","Low speed"],["EM-7067","High speed"]]},
+{c:"Sleeves & Covers",b:"",p:16,n:"Scaler Sleeve",d:"Quality plastic, suits most scaler handpieces.",v:[["EM-7144","","500 pcs/pkt"]]},
+{c:"Sleeves & Covers",b:"",p:16,n:"Headrest Cover – plastic",d:"Clear plastic, easy to apply and dispose of.",v:[["EM-2231","","250 pcs/pkt"]]},
+{c:"Sleeves & Covers",b:"",p:16,n:"Headrest Cover – non-woven",d:"Polypropylene TNT 35g/m².",pk:"500 pcs/pkt",v:[["EM-2224","10 x 10"],["EM-2225","10 x 30"]]},
+{c:"Sleeves & Covers",b:"",p:16,n:"Half Chair Cover Sleeve",d:"Clear plastic, fits over most chairs.",v:[["EM-2191","","250 pcs/pkt"]]},
+{c:"Sleeves & Covers",b:"",p:16,n:"Full Chair Cover Sleeve",d:"Fits over most chairs.",pk:"125 pcs/pkt",v:[["EM-1791","Plastic"],["EM-1792","Non-woven"]]},
+{c:"Sleeves & Covers",b:"",p:16,n:"X-Ray Sleeve",d:"Quality plastic, suits most X-ray heads.",pk:"500 pcs/pkt",v:[["EM-7146","26 x 15"],["EM-7147","30 x 24"]]},
+{c:"Sleeves & Covers",b:"",p:16,n:"X-Ray Sensor Cover",d:"Suits most X-ray sensor brands.",v:[["EM-7145","8 inch","500 pcs/pkt"]]},
+
+/* ---------- TIPS, EJECTORS & HOLDERS ---------- */
+{c:"Tips, Ejectors & Holders",b:"",p:17,n:"Cotton Roll Dispenser",d:"Non-skid base, hand operated cotton stick dispenser.",v:[["EM-0671","","Each"]]},
+{c:"Tips, Ejectors & Holders",b:"",p:17,n:"Barrier Film Holder",d:"High-impact material, organises infection control supplies.",v:[["EM-7001","","Each"]]},
+{c:"Tips, Ejectors & Holders",b:"",p:17,n:"Barrier Film",d:"Solvent-free bi-axially oriented polypropylene (BOPP).",pk:"8 rolls/ctn",v:[["EM-0289","Blue"],["EM-0290","Clear"]]},
+{c:"Tips, Ejectors & Holders",b:"",p:17,n:"High Suction Tips",d:"Single-use high-suction evacuation tips with 45° angled tip for reduced splatter.",v:[["EM-2211","","100 pcs/pkt"]]},
+{c:"Tips, Ejectors & Holders",b:"",p:17,n:"Saliva Ejector",d:"Transparent, atoxic PVC — clean, easy to use, comfortable.",pk:"100 pcs/pkt",v:[["EM-3612","Non-removable tip"],["EM-3613","Removable tip"]]},
+{c:"Tips, Ejectors & Holders",b:"",p:17,n:"Surgical Aspirator Tips",d:"High quality polyethylene, 30-degree angle, fits all high-volume evacuation systems.",pk:"25 pcs/pkt",v:[["EM-9839","Large, green"],["EM-9838","Medium, white"],["EM-9837","Small, blue"]]},
+{c:"Tips, Ejectors & Holders",b:"",p:17,n:"Air Water Syringe Tips",d:"30% recycled plastic, interchangeable and latex-free.",v:[["EM-0208","","200 pcs/pkt"]]},
+{c:"Tips, Ejectors & Holders",b:"",p:17,n:"Dynamic Mixing Tips",d:"Plastic, 5.1 ratio from the very beginning of impression material mixing to minimise waste.",v:[["EM-7528","","50 pcs/pkt"]]},
+{c:"Tips, Ejectors & Holders",b:"",p:18,n:"Mixing Tips",d:"Special internal pathways for the different components of the impression material.",pk:"48 pcs/pkt",v:[["EM-2652","Yellow"],["EM-2653","Blue tapered"],["EM-2654","Green"],["EM-2655","Pink"],["EM-2656","Brown"],["EM-2657","Blue & orange"]]},
+{c:"Tips, Ejectors & Holders",b:"",p:18,n:"Intra-Oral Mixing Tips",d:"High grade silicone, for dental and gingival impressions.",v:[["EM-2374","","100 pcs/pkt"]]},
+{c:"Tips, Ejectors & Holders",b:"",p:18,n:"Riskontrol Tips",d:"Multifunction syringe tips in non shape-memory plastic.",v:[["EM-3482","","250 pcs/box"]]},
+{c:"Tips, Ejectors & Holders",b:"",p:18,n:"Microbrush Applicator",d:"Lint free, non absorbent fibres.",pk:"100 pcs/pkt",v:[["EM-7114","Fine"],["EM-7115","Super fine"],["EM-7116","Regular"]]},
+
+/* ---------- BRUSHES & TRAYS ---------- */
+{c:"Brushes & Trays",b:"",p:19,n:"Prophy Brush & Cup",d:"Fine nylon bristles.",pk:"100 pcs/pkt",v:[["EM-3244","Latch type"],["EM-3221","Cup type"]]},
+{c:"Brushes & Trays",b:"",p:19,n:"Prophy Cup",d:"Synthetic material.",v:[["EM-3230","","100 pcs/pkt"]]},
+{c:"Brushes & Trays",b:"",p:19,n:"Composite Brush",d:"Rigid plastic to withstand repeated autoclaving.",v:[["EM-9811","","100 pcs/pkt"]]},
+{c:"Brushes & Trays",b:"",p:19,n:"Etching Tips",d:"Pre-bent to the proper angle for placing etchants, sealants and cements.",pk:"100 pcs/pkt",v:[["EM-1773","Blue"],["EM-7342","Green"],["EM-7343","Black"]]},
+{c:"Brushes & Trays",b:"",p:19,n:"Fluoride Tray",d:"Flexible EVA material, adapts easily to the dental arch.",pk:"50 pcs/pkt",v:[["EM-1776","Small"],["EM-1777","Medium"],["EM-1778","Large"]]},
+{c:"Brushes & Trays",b:"",p:19,n:"Disposable Impression Tray",d:"Plastic, inexpensive and solid with excellent retention of the impression material.",pk:"12/pkt",v:[["EM-7024","#1 large upper"],["EM-7025","#2 large lower"],["EM-7026","#3 medium upper"],["EM-7027","#4 medium lower"],["EM-7028","#5 small upper"],["EM-7029","#6 small lower"]]},
+
+/* ---------- BOWLS, WEDGES & SPATULA ---------- */
+{c:"Bowls, Wedges & Spatula",b:"",p:20,n:"Mixing Bowl",d:"Strong yet flexible, ideal for mixing alginate, stone or plaster.",v:[["EM-2635","Small","Each"],["EM-2636","Medium","Each"],["EM-2637","Large","Each"]]},
+{c:"Bowls, Wedges & Spatula",b:"",p:20,n:"Mixing Spatula",d:"Recyclable HDPE plastic with a glossy non-stick surface. 6, 3 and 4 inch.",v:[["EM-2644","","Each"]]},
+{c:"Bowls, Wedges & Spatula",b:"",p:20,n:"Retainer Box",d:"Flexible plastic with a hinge design and secure latch. Pink, purple and blue.",v:[["EM-3529","Small","Each"],["EM-3539","Medium","Each"],["EM-3548","Large","Each"]]},
+{c:"Bowls, Wedges & Spatula",b:"",p:20,n:"Glass Dappen Dish",d:"For mixing acrylics, amalgam, resins and sealants.",v:[["EM-2161","","Each"]]},
+{c:"Bowls, Wedges & Spatula",b:"",p:20,n:"Articulating Paper",d:"Soft, strong sheets that will not tear, blur or smear. Accurate occlusal adjustments.",v:[["EM-7000","","12 sheets/box"]]},
+{c:"Bowls, Wedges & Spatula",b:"",p:20,n:"Wooden Wedges",d:"Better access and stable holding of the matrix.",pk:"100 pcs/pkt",v:[["EM-7188","Blue"],["EM-7189","Orange"],["EM-7190","Pink"],["EM-7191","White"],["EM-7192","Yellow"]]},
+
+/* ---------- BLADES, TRAYS & ENDO BOX ---------- */
+{c:"Blades, Trays & Endo Box",b:"",p:21,n:"Monotray",d:"Lightweight tray in non-toxic plastic.",v:[["EM-2811","","400 pcs/pkt"]]},
+{c:"Blades, Trays & Endo Box",b:"",p:21,n:"Endo Box",d:"Multi-functional, colour coded silicon cups, high grade plastic.",v:[["EM-1764","Blue","Each"],["EM-1765","Red","Each"]]},
+{c:"Blades, Trays & Endo Box",b:"Euromed",p:21,n:"Bur Block",d:"Aluminium, resistant to high temperature and pressure.",v:[["EM-7222","15 holes","Each"],["EM-7336","13 holes","Each"]]},
+{c:"Blades, Trays & Endo Box",b:"",p:21,n:"Dental Disposable Instrument",d:"High-grade plastic replacement for stainless steel instruments.",v:[["EM-1361","","Each"]]},
+{c:"Blades, Trays & Endo Box",b:"",p:21,n:"Dental Floss / Toothpick",d:"Removes plaque between the teeth.",v:[["CC-5060","","Pack"]]},
+{c:"Blades, Trays & Endo Box",b:"",p:21,n:"Bite Block",d:"Comfortable elastic medical plastic, no glue smell.",v:[["EM-9792","","Each"]]},
+{c:"Blades, Trays & Endo Box",b:"",p:21,n:"Surgical Blade with Handle",d:"High-grade stainless steel with a plastic handle. Sterile, packed in aluminium foil.",pk:"10/pack",v:[["EM-4212","No. 10"],["EM-4214","No. 11"],["EM-4216","No. 12"],["EM-4218","No. 15"],["EM-4220","No. 20"],["EM-4222","No. 21"],["EM-4224","No. 22"],["EM-4226","No. 23"]]},
+{c:"Blades, Trays & Endo Box",b:"",p:21,n:"Surgical Blade",d:"High-grade stainless / carbon steel. Sterile, packed in aluminium foil.",pk:"10/pack",v:[["EM-4175","No. 10"],["EM-4178","No. 11"],["EM-4180","No. 12"],["EM-4182","No. 15"],["EM-4184","No. 20"],["EM-4186","No. 21"],["EM-4188","No. 22"],["EM-4190","No. 23"]]},
+
+/* ---------- POST, RETRACTOR & POLISHING ---------- */
+{c:"Post, Retractor & Polishing",b:"",p:22,n:"Screw Post / Gold Post",d:"Gives retention for reconstruction of non-vital teeth.",v:[["EM-7247","","120 pcs/box"]]},
+{c:"Post, Retractor & Polishing",b:"BMD",p:22,n:"Fiber Post",d:"High volume percentage of continuous fibers embedded in polymer matrixes. 65% fiber, transparent.",v:[["EM-7248","","20 posts/box + 4 drills/box"]]},
+{c:"Post, Retractor & Polishing",b:"",p:22,n:"Link Pins",d:"Provide anchors for a filling or crown.",v:[["EM-11449","0.75","30 pins + 3 drills/pkt"]]},
+{c:"Post, Retractor & Polishing",b:"",p:22,n:"Dental Sectional Matrix Band",d:"Sectional contoured metal matrices with rings.",v:[["AW-14325","","Kit"]]},
+{c:"Post, Retractor & Polishing",b:"",p:22,n:"Dental Composite Polishing Kit",d:"RA0309 resin base kit for low speed contra angle.",v:[["AW-14300","","Kit"]]},
+{c:"Post, Retractor & Polishing",b:"",p:22,n:"Dental Bib Holder Clips",d:"Solid metal and ABS plastic for durability and long life.",v:[["EM-1519","","Each"]]},
+{c:"Post, Retractor & Polishing",b:"",p:22,n:"Cheek Retractor",d:"Durable clear plastic, autoclavable, extra elasticity to fit.",v:[["EM-7059","Hand free, adult","2 pcs/pkt"],["EM-7060","Hand free, child","2 pcs/pkt"],["EM-7061","Euromed","10 pcs/pkt"]]},
+
+/* ---------- OTHER DENTAL ITEMS ---------- */
+{c:"Other Dental Items",b:"",p:23,n:"Face Shield",d:"Polyethylene terephthalate (PET) with a blue head band to hold the shield in place.",v:[["EM-1822","","Each"]]},
+{c:"Other Dental Items",b:"",p:23,n:"Safety Goggles",d:"Premium plastic, lightweight and pressure-free.",v:[["EM-3588","Transparent","Each"],["EM-3589","Orange","Each"]]},
+{c:"Other Dental Items",b:"",p:23,n:"Dental Mixing Pads",d:"Ask sales for available sizes — no item code printed in the catalogue.",v:[["","",""]]},
+{c:"Other Dental Items",b:"Lubrico",p:23,n:"Handpiece Lubricant",d:"Cleaning and lubrication spray for high speed and low speed handpieces. No item code printed in the catalogue.",v:[["","",""]]},
+{c:"Other Dental Items",b:"",p:23,n:"Dental X-Ray Film",d:"No item code printed in the catalogue.",v:[["","",""]]},
+{c:"Other Dental Items",b:"",p:23,n:"Dental Dam",d:"No item code printed in the catalogue.",v:[["","",""]]},
+{c:"Other Dental Items",b:"",p:23,n:"Topical Anesthetic Gel & Spray",d:"With vitamin E and xylitol, gluten free. No item code printed in the catalogue.",v:[["","",""]]},
+{c:"Other Dental Items",b:"Pyrax",p:23,n:"Apex Locator (Joypex 5)",d:"No item code printed in the catalogue.",v:[["","",""]]},
+{c:"Other Dental Items",b:"",p:23,n:"Retraction Cord",d:"Sizes 000, 00, 0 and 1. No item code printed in the catalogue.",v:[["","Sizes 000 / 00 / 0 / 1",""]]},
+
+/* ---------- NEEDLES & SYRINGES ---------- */
+{c:"Needles & Syringes",b:"",p:24,n:"Irrigation Needle",d:"Standard flexible steel, bendable for improved flow rate, easily reaches 45°.",v:[["EM-7030","27G","100 pcs/pkt"]]},
+{c:"Needles & Syringes",b:"Euromed",p:24,n:"Dental Needles",d:"Silicone coated to reduce pain and tissue trauma. Tri-bevel point for penetration without coring, round cutting edge protects the gum.",pk:"100 pcs/box",v:[["EM-7306","27G short (0.4 x 21mm)"],["EM-7307","27G long (0.4 x 30mm)"],["EM-7308","31G ultra-short (0.25 x 21mm)"],["EM-7309","30G short (0.3 x 21mm)"]]},
+{c:"Needles & Syringes",b:"",p:24,n:"Hypodermic Needles",d:"Ultra sharp, three bevelled, siliconized. EO sterilized, pyrogen free, single blister packing.",pk:"100 pcs/box, 100 box/case",v:[["EM-1286","21G x 1 1/2 — green"],["EM-1284","21G x 1 — green"],["EM-1293","22G x 1 1/2 — black"],["EM-1298","23G x 1 1/4 — light blue"],["EM-1296","23G x 1 — light blue"],["EM-1324","25G x 1 — orange"],["EM-1321","25G x 5/8 — orange"],["EM-1331","26G x 1/2 — brown"],["EM-1341","27G x 1/2 — grey"],["EM-1352","30G x 1/2 — light yellow"]]},
+{c:"Needles & Syringes",b:"",p:24,n:"Disposable Syringe",d:"Latex-free, sterile, non-toxic, clear barrel with bold print. Positive plunger stop.",v:[["EM-4421","1ml with 27 x 1/2 needle","100 pcs/box"],["EM-4426","3ml with 23 x 1 1/4 needle","100 pcs/box"],["EM-4439","5ml with 23 x 1 1/4 needle","100 pcs/box"],["EM-4456","10ml with 21 x 1 1/2 needle","50 pcs/box"],["EM-4467","20ml with 20 x 1 1/2 needle","50 pcs/box"],["EM-4479","30ml with 18 x 1 1/2 needle","50 pcs/box"],["EM-4492","50ml with 18 x 1 1/2 needle","25 pcs/box"],["EM-4496","50ml catheter tip","25 pcs/box"]]},
+
+/* ---------- SUTURES ---------- */
+{c:"Sutures",b:"Sutures India",p:25,n:"Polyglycolic Acid Suture (Truglyde)",d:"Absorbable braided and coated polyglycolic acid. Wound support of 28–30 days, ideal for all soft tissue approximation.",v:[["","","12 pcs/pkt"]]},
+{c:"Sutures",b:"Sutures India",p:25,n:"Fast Absorbable Polyglycolic Acid (Truglyde Fast)",d:"Faster absorption, essentially absorbs within 40–42 days. Convenient for episiotomy and circumcision.",v:[["","","12 pcs/pkt"]]},
+{c:"Sutures",b:"Sutures India",p:25,n:"Black Braided Silk Suture (Trusilk)",d:"Non-absorbable. Known for smoothness and knot security, braided tightly for strength and secure knot placement.",v:[["","","12 pcs/pkt"]]},
+{c:"Sutures",b:"Sutures India",p:25,n:"Monofilament Polyamide Suture (Trulon)",d:"Non-absorbable, most commonly for cutaneous closure. Does not degrade over time even in infected areas.",v:[["","","12 pcs/pkt"]]},
+
+/* ---------- GLOVES ---------- */
+{c:"Gloves",b:"Euromed",p:26,n:"Surgical Gloves Sterile – powdered",d:"Micro roughed finish, polymer coated, low protein. For invasive surgery.",pk:"50 pairs/box",v:[["EM-3724","Size 6.0"],["EM-3726","Size 6.5"],["EM-3729","Size 7.0"],["EM-3731","Size 7.5"],["EM-3734","Size 8.0"],["EM-3737","Size 8.5"]]},
+{c:"Gloves",b:"Euromed",p:26,n:"Surgical Gloves Sterile – powder free",d:"Micro roughed finish, polymer coated, low protein. For invasive surgery.",pk:"50 pairs/box",v:[["EM-3749","Size 6.0"],["EM-3751","Size 6.5"],["EM-3753","Size 7.0"],["EM-3755","Size 7.5"],["EM-3757","Size 8.0"],["EM-3859","Size 8.5"]]},
+{c:"Gloves",b:"Fantastik",p:26,n:"Latex Examination Gloves – powdered",d:"Natural rubber latex, ambidextrous, smooth surface, chlorinated.",pk:"100 pcs/box",v:[["EM-2547","XS"],["EM-2549","S"],["EM-2552","M"],["EM-2554","L"],["EM-2556","XL"]]},
+{c:"Gloves",b:"Fantastik",p:26,n:"Latex Examination Gloves – powder free",d:"Natural rubber latex, ambidextrous, smooth surface, chlorinated.",pk:"100 pcs/box",v:[["EM-2581","XS"],["EM-2583","S"],["EM-2586","M"],["EM-2588","L"],["EM-2591","XL"]]},
+{c:"Gloves",b:"Fantastik",p:26,n:"Nitrile Examination Gloves – powder free",d:"Ambidextrous, palm textured surface. Chemical resistant and puncture resistant.",pk:"100 pcs/box",v:[["EM-2956","XS"],["EM-2962","S"],["EM-2970","M"],["EM-2974","L"],["EM-2976","XL"]]},
+
+/* ---------- GAUZE & COTTON ---------- */
+{c:"Gauze & Cotton",b:"Euromed",p:27,n:"Gauze Swabs Non-Sterile",d:"100% virgin cotton, soft and highly absorbent, bleached, low linting with folded edge.",pk:"100/box",v:[["EM-1944","5 x 5cm, 8 ply"],["EM-1947","7.5 x 7.5cm, 8 ply"],["EM-1949","10 x 10cm, 8 ply"],["EM-1961","5 x 5cm, 12 ply"],["EM-1963","7.5 x 7.5cm, 12 ply"],["EM-1967T","10 x 10cm, 12 ply"]]},
+{c:"Gauze & Cotton",b:"Euromed",p:27,n:"Gauze Swabs Non-Woven",d:"70% viscose and 30% polyester. Soft and highly absorbent.",pk:"100 pcs/box",v:[["EM-2081","5 x 5cm, 6 ply"],["EM-2089","7.5 x 7.5cm, 6 ply"],["EM-2091","10 x 10cm, 6 ply"]]},
+{c:"Gauze & Cotton",b:"Euromed",p:27,n:"Dental Cotton Roll",d:"100% virgin cotton rolls for dental use.",pk:"2000 pcs/ctn",v:[["EM-0743","#1"],["EM-0744","#2"]]},
+{c:"Gauze & Cotton",b:"Euromed",p:27,n:"Cotton Balls",d:"100% bleached cotton, soft, compact, uniform and highly absorbent.",v:[["EM-0131","0.5g","100/pkt"],["EM-0132","0.5g","200/pkt"]]},
+{c:"Gauze & Cotton",b:"Euromed",p:27,n:"Absorbent Cotton Roll",d:"100% bleached cotton, soft and highly absorbent. With or without paper insert.",v:[["EM-0121","25g","400 rolls/ctn"],["EM-0122","50g","200 rolls/ctn"],["EM-0123","100g","100 rolls/ctn"],["EM-0124","250g","50 rolls/ctn"],["EM-0125","500g","30 rolls/ctn"],["EM-0126","1000g","20 rolls/ctn"]]},
+
+/* ---------- INSTRUMENTS ---------- */
+{c:"Instruments",b:"Euromed",p:31,n:"Artery Forceps",d:"",pk:"Each",v:[["EM-7261","12.5cm"],["EM-7310","6 in straight"],["EM-7311","8 in"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Aspirating Syringe",d:"",v:[["EM-7280","Standard","Each"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Ball Burnisher",d:"",v:[["EM-7285","1.6mm / 3.6mm","Each"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Blade Handle",d:"",pk:"Each",v:[["EM-7258","#3"],["EM-7259","#4"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Buck Hammer",d:"",pk:"Each",v:[["EM-0451","Buck hammer"],["EM-3471","Knee hammer"],["EM-7529","Set"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Cement Spatula",d:"",v:[["EM-7288","Standard","Each"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Elevators",d:"",v:[["EM-7276","Standard","Each"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Extraction Set",d:"Extraction forceps set.",v:[["EM-7312","","10 pcs/set"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Impression Tray – metal",d:"Perforated and solid metal impression trays.",pk:"Each",v:[["EM-7313","XL lower"],["EM-7314","XL upper"],["EM-7025","L lower"],["EM-7024","L upper"],["EM-7027","M lower"],["EM-7026","M upper"],["EM-7029","S lower"],["EM-7028","S upper"],["EM-7315","XS lower"],["EM-7316","XS upper"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Instrument Tray with Lid",d:"",v:[["EM-7274","10 x 12cm","Each"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Iris Scissors",d:"",pk:"Each",v:[["EM-7266","4.5 in curved"],["EM-7319","4.5 in straight"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Kidney Tray",d:"",pk:"Each",v:[["EM-7273","Large 10 in"],["EM-7320","Medium 8 in"],["EM-7321","Small 6 in"],["EM-7322","XL 12 in"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Magil Forceps",d:"",pk:"Each",v:[["EM-7323","20cm"],["EM-7324","25cm"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Mayo Scissor",d:"",v:[["EM-7265","21cm straight","Each"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Mirror Handle",d:"",v:[["EM-7279","Standard","Each"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Mosquito Forceps",d:"",pk:"Each",v:[["EM-7260","6 in curved"],["EM-7325","6 in straight"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Mouth Mirror",d:"",pk:"Each",v:[["EM-7277","No. 4"],["EM-7278","No. 5"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Needle Holder",d:"",v:[["EM-7272","6 in","Each"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Plaster Cutter",d:"",v:[["EM-7326","9.5 in","Each"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Plaster Spreader",d:"",v:[["EM-7327","11 in","Each"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Dental Probes",d:"",pk:"Each",v:[["EM-7287","Double sided"],["EM-7335","Single sided (Williams probe)"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Surgical Scissors",d:"",pk:"Each",v:[["EM-7264","12cm curved"],["EM-7328","12cm straight"],["EM-7329","6 in straight"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Suture Scissor",d:"",v:[["EM-7330","5.5 in","Each"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Surgical Instrument Kit",d:"Boxed surgical instrument kit in a zip case.",v:[["EM-7344","Set","Set"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Thumb Forceps",d:"",pk:"Each",v:[["EM-7331","Plain 5.5 in"],["EM-7332","Toothed 5.5 in"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Tissue Forceps",d:"",v:[["EM-7333","12cm","Each"]]},
+{c:"Instruments",b:"Euromed",p:31,n:"Tweezer",d:"",v:[["EM-7334","Standard","Each"]]},
+{c:"Instruments",b:"",p:30,n:"Other instruments shown without codes",d:"Umbilical cord scissor, Gracey curettes, periodontal probe, crown remover, surgical extraction forcep set — ask sales for codes and sizes.",v:[["","",""]]},
+
+/* ---------- CONTAINERS & DISPENSERS ---------- */
+{c:"Containers & Dispensers",b:"",p:32,n:"Yellow Biohazard Bag",d:"HDPE and LDPE mix for strength and durability. Non toxic fumes after incineration.",pk:"Pack",v:[["EM-0364","S"],["EM-0365","M"],["EM-0366","L"]]},
+{c:"Containers & Dispensers",b:"",p:32,n:"Sharp Container with Gloves Dispenser",d:"Hard metal holder with a built-in gloves dispenser.",v:[["EM-3859","","Each"]]},
+{c:"Containers & Dispensers",b:"",p:32,n:"Dust Bin",d:"Stainless steel body with a high quality plastic lid.",v:[["EM-1454","","Each"]]},
+{c:"Containers & Dispensers",b:"",p:32,n:"Sharp Containers",d:"Plastic sharps containers in various shapes and volumes.",v:[["EM-3894","1 litre","60 pcs/ctn"],["EM-3896","3 litre","50 pcs/ctn"],["EM-3899","5 litre","30 pcs/ctn"],["EM-3908","10 litre","20 pcs/ctn"],["EM-3914","13 litre","10 pcs/ctn"],["EM-3915","20 litre","10 pcs/ctn"]]},
+{c:"Containers & Dispensers",b:"",p:32,n:"Tissue Dispenser",d:"Easy to refill with a viewing window. ABS plastic, easy to install.",v:[["EM-7302","","Each"]]},
+{c:"Containers & Dispensers",b:"",p:32,n:"Hand Sanitizer Dispenser",d:"Dove grey space saver dispenser.",v:[["EM-7215","","Each"]]},
+{c:"Containers & Dispensers",b:"",p:32,n:"Soap Dispenser",d:"One-hand operation, durable white plastic construction.",v:[["EM-7216","","Each"]]}
+];
+
+/* ============ BUILD INDEX ============ */
+DATA.forEach((p,i)=>{
+  p.id=i;
+  p.v=p.v.map((v,j)=>({code:v[0]||"",size:v[1]||"",pack:v[2]||p.pk||"",key:i+"-"+j}));
+  p.hay=(p.n+" "+p.c+" "+(p.b||"")+" "+(p.d||"")+" "+p.v.map(v=>v.code+" "+v.size+" "+v.pack).join(" ")).toLowerCase();
+});
+const CATS=[...new Set(DATA.map(p=>p.c))];
+
+/* ============ STATE ============ */
+let state={q:"",cat:"All",expanded:new Set()};
+const cart=new Map();
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const norm=s=>s.toLowerCase().replace(/[\s\-_/]/g,"");
+
+function matches(p,q){
+  if(!q) return {ok:true,vhits:new Set()};
+  const terms=q.toLowerCase().split(/\s+/).filter(Boolean);
+  const nq=norm(q);
+  const vhits=new Set();
+  p.v.forEach(v=>{
+    const vn=norm(v.code+v.size+v.pack);
+    if(nq && vn.includes(nq)) vhits.add(v.key);
+  });
+  const ok=terms.every(t=>p.hay.includes(t)||norm(p.hay).includes(norm(t)))||vhits.size>0;
+  return {ok,vhits};
+}
+
+function filtered(){
+  const out=[];
+  DATA.forEach(p=>{
+    if(state.cat!=="All"&&p.c!==state.cat) return;
+    const m=matches(p,state.q.trim());
+    if(m.ok) out.push({p,vhits:m.vhits});
+  });
+  return out;
+}
+
+/* ============ RENDER ============ */
+function renderCats(){
+  const counts={};
+  DATA.forEach(p=>{const m=matches(p,state.q.trim());if(m.ok)counts[p.c]=(counts[p.c]||0)+1});
+  const total=Object.values(counts).reduce((a,b)=>a+b,0);
+  let h=`<button class="cat" data-cat="All" aria-pressed="${state.cat==="All"}">All sections <span>${total}</span></button>`;
+  CATS.forEach(c=>{
+    const n=counts[c]||0;
+    h+=`<button class="cat" data-cat="${esc(c)}" aria-pressed="${state.cat===c}" ${n?"":'style="opacity:.4"'}>${esc(c)} <span>${n}</span></button>`;
+  });
+  $("#cats").innerHTML=h;
+}
+
+function renderGrid(){
+  const res=filtered();
+  const items=res.reduce((a,r)=>a+r.p.v.length,0);
+  $("#count").innerHTML=`<b>${res.length}</b> product${res.length===1?"":"s"} · <b>${items}</b> orderable line${items===1?"":"s"}${state.q?` for “${esc(state.q)}”`:""}`;
+  if(!res.length){
+    $("#grid").innerHTML=`<div class="empty"><b>No match for “${esc(state.q)}”</b>Try a shorter term, a partial item code such as <span class="mono">EM-25</span>, or clear the section filter.</div>`;
+    return;
+  }
+  $("#grid").innerHTML=res.map(({p,vhits})=>{
+    const openAll=state.expanded.has(p.id)||vhits.size>0||p.v.length<=8;
+    const rows=(openAll?p.v:p.v.slice(0,8)).map(v=>{
+      const inCart=cart.has(v.key);
+      const codeCell=v.code
+        ? `<span class="code">${esc(v.code)}</span> <button class="copyc" data-copy="${esc(v.code)}" title="Copy item code" aria-label="Copy item code ${esc(v.code)}">copy</button>`
+        : `<span class="code none">ask sales</span>`;
+      return `<tr class="${vhits.has(v.key)?"hit":""}">
+        <td>${codeCell}</td>
+        <td>${esc(v.size)||"<span style='color:#9AAEB5'>Standard</span>"}</td>
+        <td class="pk">${esc(v.pack)||"—"}</td>
+        <td style="text-align:right"><button class="add ${inCart?"in":""}" data-add="${v.key}">${inCart?"Added ✓":"Add"}</button></td>
+      </tr>`;
+    }).join("");
+    const more=(!openAll&&p.v.length>8)?`<button class="more" data-exp="${p.id}">Show all ${p.v.length} options</button>`:"";
+    return `<article class="card">
+      <div class="card-top">
+        <div>
+          <h3>${esc(p.n)}</h3>
+          <div class="meta">
+            <span class="tag">${esc(p.c)}</span>
+            ${p.b?`<span class="tag brand">${esc(p.b)}</span>`:""}
+          </div>
+        </div>
+        <div class="pageref">page<b>${p.p}</b></div>
+      </div>
+      ${p.d?`<p class="desc">${esc(p.d)}</p>`:'<div style="height:10px"></div>'}
+      <table class="vt"><thead><tr><th>Item code</th><th>Size / shade</th><th>Packing</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+      ${more}
+    </article>`;
+  }).join("");
+}
+
+/* ============ ORDER LIST ============ */
+function findVariant(key){
+  const [pi]=key.split("-");
+  const p=DATA[+pi];
+  return {p,v:p.v.find(v=>v.key===key)};
+}
+function addToCart(key){
+  if(cart.has(key)) cart.get(key).qty++;
+  else{const {p,v}=findVariant(key);cart.set(key,{p,v,qty:1});}
+  renderCart();renderGrid();
+  toast("Added to order list");
+}
+function renderCart(){
+  const n=[...cart.values()].reduce((a,i)=>a+i.qty,0);
+  $("#fabn").textContent=n;
+  $("#dcount").textContent=cart.size?`${cart.size} line${cart.size===1?"":"s"} · ${n} unit${n===1?"":"s"}`:"Nothing added yet";
+  if(!cart.size){
+    $("#dbody").innerHTML=`<div class="dempty"><b>Your list is empty</b>Find a product, choose the size or shade you need, and press Add. Item codes travel with it.</div>`;
+    return;
+  }
+  $("#dbody").innerHTML=[...cart.entries()].map(([k,it])=>`
+    <div class="line">
+      <div class="line-t">
+        <div>
+          <div class="line-n">${esc(it.p.n)}</div>
+          <div class="line-v">${it.v.size?esc(it.v.size)+" · ":""}${esc(it.v.pack)||"pack to confirm"}</div>
+        </div>
+        <span class="code ${it.v.code?"":"none"}">${esc(it.v.code||"ask sales")}</span>
+      </div>
+      <div class="line-b">
+        <button class="step" data-dec="${k}" aria-label="Reduce quantity">−</button>
+        <span class="qty">${it.qty}</span>
+        <button class="step" data-inc="${k}" aria-label="Increase quantity">+</button>
+        <button class="rm" data-rm="${k}">Remove</button>
+      </div>
+    </div>`).join("");
+}
+function cartText(){
+  let t="Enquiry — Apple Med Trading dental catalogue\n\n";
+  [...cart.values()].forEach((it,i)=>{
+    t+=`${i+1}. ${it.p.n}\n`;
+    t+=`   Item code: ${it.v.code||"not listed — please advise"}\n`;
+    if(it.v.size) t+=`   Size/shade: ${it.v.size}\n`;
+    if(it.v.pack) t+=`   Packing: ${it.v.pack}\n`;
+    t+=`   Quantity: ${it.qty}\n\n`;
+  });
+  t+="Please confirm availability and pricing.";
+  return t;
+}
+function updateMail(){
+  $("#mail").href="mailto:sales@applemed.ae?subject="+encodeURIComponent("Dental product enquiry")+"&body="+encodeURIComponent(cartText());
+}
+
+/* ============ EVENTS ============ */
+let toastT;
+function toast(msg){
+  const el=$("#toast");el.textContent=msg;el.classList.add("show");
+  clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),1600);
+}
+$("#q").addEventListener("input",e=>{
+  state.q=e.target.value;
+  $("#clear").hidden=!state.q;
+  renderCats();renderGrid();
+});
+$("#clear").addEventListener("click",()=>{
+  state.q="";$("#q").value="";$("#clear").hidden=true;$("#q").focus();renderCats();renderGrid();
+});
+$("#cats").addEventListener("click",e=>{
+  const b=e.target.closest("[data-cat]");if(!b)return;
+  state.cat=b.dataset.cat;renderCats();renderGrid();window.scrollTo({top:0,behavior:"smooth"});
+});
+$("#grid").addEventListener("click",e=>{
+  const add=e.target.closest("[data-add]");
+  if(add){addToCart(add.dataset.add);return;}
+  const exp=e.target.closest("[data-exp]");
+  if(exp){state.expanded.add(+exp.dataset.exp);renderGrid();return;}
+  const cp=e.target.closest("[data-copy]");
+  if(cp){copy(cp.dataset.copy,"Item code "+cp.dataset.copy+" copied");}
+});
+$("#dbody").addEventListener("click",e=>{
+  const inc=e.target.closest("[data-inc]"),dec=e.target.closest("[data-dec]"),rm=e.target.closest("[data-rm]");
+  if(inc){cart.get(inc.dataset.inc).qty++;}
+  else if(dec){const it=cart.get(dec.dataset.dec);it.qty--;if(it.qty<1)cart.delete(dec.dataset.dec);}
+  else if(rm){cart.delete(rm.dataset.rm);}
+  else return;
+  renderCart();renderGrid();updateMail();
+});
+function openDrawer(o){
+  $("#drawer").classList.toggle("open",o);
+  $("#scrim").classList.toggle("open",o);
+  $("#drawer").setAttribute("aria-hidden",String(!o));
+  if(o){updateMail();$("#close").focus();}
+}
+$("#fab").addEventListener("click",()=>openDrawer(true));
+$("#close").addEventListener("click",()=>openDrawer(false));
+$("#scrim").addEventListener("click",()=>openDrawer(false));
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")openDrawer(false);
+  if(e.key==="/"&&document.activeElement!==$("#q")){e.preventDefault();$("#q").focus();}
+});
+function copy(text,msg){
+  const done=()=>toast(msg);
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done,fallback);}
+  else fallback();
+  function fallback(){
+    const ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand("copy");done();}catch(err){toast("Select and copy manually");}
+    document.body.removeChild(ta);
+  }
+}
+$("#copy").addEventListener("click",()=>{
+  if(!cart.size){toast("Add something first");return;}
+  copy(cartText(),"Order list copied");
+});
+$("#clearlist").addEventListener("click",()=>{
+  if(!cart.size)return;
+  cart.clear();renderCart();renderGrid();updateMail();toast("Order list cleared");
+});
+
+renderCats();renderGrid();renderCart();updateMail();
+</script>
+</body>
+</html>
