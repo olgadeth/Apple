@@ -191,7 +191,7 @@ footer .cols{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(
     <div><b>Sharjah</b> +971 6 539 0262<br><b>Abu Dhabi</b> +971 2 641 6075<br><b>Al Ain</b> +971 3 780 9076</div>
     <div><b>Muscat, Oman</b> +968 2403 3760<br>sales@applemed.ae<br>www.applemed.ae</div>
   </div>
-  <p style="margin-top:14px">Prices on request. Item numbers, sizes and packing follow the 2023 printed catalogue and may be updated without notice.</p>
+  <p style="margin-top:14px">Prices on request. Item numbers, sizes and packing follow the printed catalogues and may be updated without notice.</p>
 </footer>
 
 <div class="bar" id="bar">
@@ -269,7 +269,13 @@ const CATS = [
   ["Instruments","#92276E"],
   ["Emergency & First Aid","#0071BC"],
   ["Rehabilitation","#EC1E79"],
-  ["Ortho Supports","#1B3B4B"]
+  ["Ortho Supports","#1B3B4B"],
+  ["Chemicals & Solutions","#0F7B8A"],
+  ["Home & Personal Care","#5E60CE"],
+  ["Dental Materials","#B07D2B"],
+  ["Burs & Endodontics","#4C6EF5"],
+  ["Dental Consumables","#E76F51"],
+  ["Dental Instruments","#2D6A4F"]
 ];
 
 const P = [
@@ -298,8 +304,8 @@ const P = [
 [1,"Surface Disinfectant — Nosofast TR","Ready to use foaming spray, broad antimicrobial spectrum.","",[["EM-13575","Ready to use","1 Litre"]]],
 [1,"Dental Impression Disinfectant","Foaming spray for quick disinfection of dental impressions. Ready to use.","",[["EM-13540","Ready to use","1 Litre"]]],
 [1,"Suction & Aspiration Unit Disinfectant — Medaspir 2%","Concentrate for vacuum systems, amalgam separators and spittoons.","",[["EM-13570","Concentrate 2%","5 Litres"]]],
-[1,"Disinfectant Wipes — Alcohol Based (OneSpray)","30% ethanol, 10% 2-propanol. Aldehyde and phenol free, ready to use, for non-invasive device surfaces.","",[["—","Canister","100 Pcs"],["—","Canister","200 Pcs"]]],
-[1,"Disinfectant Wipes — Alcohol Free (OneSurface)","0.84% hydrogen peroxide. For devices and materials that are not alcohol resistant.","",[["—","Canister","100 Pcs"],["—","Canister","200 Pcs"]]],
+[1,"Disinfectant Wipes — Alcohol Based (OneSpray)","30% ethanol, 10% 2-propanol, 0.25% didecyldimethyl poly(oxethyl). Aldehyde and phenol free, ready to use, for non-invasive device surfaces.","",[["EM-1401","Canister","100 Pcs"],["EM-1402","Canister","200 Pcs"]]],
+[1,"Disinfectant Wipes — Alcohol Free (OneSurface)","0.84% hydrogen peroxide, 0.56% alkyldimethyl benzylammonium chloride, 0.49% didecyldimethyl ammonium chloride. For materials that are not alcohol resistant.","",[["EM-1401","Canister","100 Pcs"],["EM-1402","Canister","200 Pcs"]]],
 
 /* ============ 2 · Respiratory & Anesthesia ============ */
 [2,"Oxygen Mask","Swivel connector for patient comfort.","100 Pcs/Ctn",[["EM-3162","Adult"],["EM-3164","Pediatric"],["EM-3167","Infant"]]],
@@ -393,7 +399,7 @@ const P = [
 [4,"Vaginal Speculum","Clear acrylic, strong grip and yoke design. Sterile, individually packed.","100 Pcs/Ctn",[["EM-4764","Small"],["EM-4769","Medium"],["EM-4772","Large"]]],
 [4,"Ear Bulb Syringe","Ribbed bulb for secure grip, smooth tapered tip. Individually packaged.","",[["EM-1611","30 ml","1 Pc/Pkt"]]],
 [4,"Umbilical Cord Clamp","Secure non-release closure, medical grade, sterile, individually packed.","",[["EM-4676","Standard","100 Pcs/Box"]]],
-[4,"Ultrasound Gel","Hypoallergenic, water soluble, odourless. No formaldehyde or salt.","",[["—","250 ml bottle","1 Bottle"],["—","5 Litre canister","1 Canister"]]],
+[4,"Ultrasound Gel","Hypoallergenic, water soluble, odourless. No formaldehyde or salt.","",[["EM-9038","250 ml bottle","1 Bottle"],["EM-9041","5 Litre canister · Blue","1 Canister"],["EM-10614","5 Litre canister · White","1 Canister"]]],
 [4,"Underpad","Long virgin pulp fibre absorbent core.","",[["EM-4685","60 x 90 cm","15 Pcs/Pkt"]]],
 [4,"Adult Diaper / Pants","Soft and breathable with wetness indicator, leak guard and leg barrier.","25 Pcs/Pack",[["EM-7339","XL"],["EM-7340","L"],["EM-7341","M"]]],
 [4,"Maternity Pad","Super absorbent polymer converts fluid into gel to keep the area dry.","",[["EM-2744","7 x 14 in","20 Pcs/Pkt"]]],
@@ -494,9 +500,9 @@ const P = [
 [7,"Electric Suction Machine 7A-23B","AC 220 V, max negative pressure ≥0.09 MPa, pumping rate ≥40 L/min, 2 x 2500 ml reservoirs, ≤65 dB.","",[["EM-7218","7A-23B","1 Unit"]]],
 [7,"Portable Suction Unit AC/DC","Suction up to 0.08 MPa at 25 LPM, double anti-overflow protection, 1400 ml bottle.","",[["EM-11378","AC/DC portable","1 Unit"]]],
 [7,"Portable Suction Unit 7E-A","DC 12 V, 90 VA, max negative pressure ≥0.075 MPa, pumping rate ≥17 L/min, 1000 ml reservoir.","",[["EM-7219","7E-A","1 Unit"]]],
-[7,"Oxygen Cylinder","Aluminium cylinder with trolley. Sizes 48, 24, 18, 16 and 4.8 cft.","1 Unit",[["EM-3199","48 cft · 10 L"],["EM-3199","24 cft · 5 L"],["EM-3199","18 cft · 3.75 L · anesthesia"],["EM-3199","16 cft · 3.33 L · ward/transport"],["EM-3199","4.8 cft · 1 L"]]],
+[7,"Oxygen Cylinder","Aluminium cylinder with trolley. Sizes 48, 24, 18, 16 and 4.8 cft.","1 Unit",[["EM-11114","2.8 L Aluminium"],["EM-16735","4.6 L Aluminium"],["EM-3202","5 L Steel"],["EM-3201","10 L Steel"],["EM-16710","10 L Aluminium"]]],
 [7,"Oxygen Cylinder Kit","Easy to operate, 45% lighter than steel cylinder, portable with carry bag.","",[["EM-11114","Portable kit","1 Kit"]]],
-[7,"Oxygen Cylinder Regulator","Reduces pressure and controls flow. Pin index and bull nose available.","",[["EM-3194","Pin index / bull nose","1 Unit"]]],
+[7,"Oxygen Cylinder Regulator","Reduces pressure and controls flow. Pin index and bull nose available.","",[["EM-3194","Bullnose","1 Unit"],["EM-3195","Pin index","1 Unit"]]],
 [7,"Digital BP Monitor","Oscillometric technology for higher accuracy.","",[["EM-10650","Upper arm","1 Unit"]]],
 [7,"Glucometer","Target range indicator, 1-button navigation, easy edge test strip.","",[["EM-7210","Meter","1 Unit"]]],
 [7,"Compressor Nebulizer","Small particle size, moderate nebulization rate, long air tubing.","",[["EM-10650","Compressor","1 Unit"]]],
@@ -607,7 +613,7 @@ const P = [
 [11,"Lightweight Transport Wheelchair 832LABJ","Anodized aluminium frame, 12 in rear wheels with pneumatic tires, drop back handle with brakes. Seat 41 cm, capacity 100 kg.","",[["EM-10866","Seat 41 cm · 10.5 kg","1 Unit"]]],
 [11,"Adjustable Kids Wheelchair 9020","Aluminium frame, reclining high back, adjustable headrest and armrest, elevating footrest. Seat 35 cm, capacity 100 kg.","",[["EM-14890","Seat 35 cm · 23 kg","1 Unit"]]],
 [11,"Lightweight Wheelchair 8630LAJ","Under 30 lbs, 6 in solid casters, 20 in pneumatic rear wheel, united brake. Seat 46 cm, capacity 100 kg.","",[["EM-14880","Seat 46 cm · 12.3 kg","1 Unit"]]],
-[11,"Child Wheelchair 802-35","Foldable, high-quality PVC mats, steel frame, adjustable footrests. Seat 35 cm, capacity 100 kg.","",[["—","Seat 35 cm · 14.2 kg","1 Unit"]]],
+[11,"Child Wheelchair 802-35","Foldable, high-quality PVC mats, steel frame, adjustable footrests. Seat 35 cm, capacity 100 kg.","",[["EM-10677","Seat 35 cm · 14.2 kg","1 Unit"]]],
 [11,"Electric Wheelchair 1008","Lithium battery, foldable frame, intelligent control lever both sides, five-speed, 360° in-situ steering. Seat 45 cm, capacity 100 kg.","",[["EM-10828","Seat 45 cm · 46 kg","1 Unit"]]],
 [11,"Commode Wheelchair 609","Chromed carbon steel frame, removable seat panel and commode pail with lid, 24 in rear wheels. Seat 45 cm, capacity 100 kg.","",[["EM-7264","Seat 45 cm · 18.3 kg","1 Unit"]]],
 [11,"Flip Handle Commode Wheelchair 6928","24 in pneumatic rear mag wheel, detachable, loop brake, leather padded backrest. Seat 46 cm, capacity 100 kg.","",[["EM-14870","Seat 46 cm · 12.6 kg","1 Unit"]]],
@@ -618,10 +624,10 @@ const P = [
 [11,"Walker with Wheels 918L","Anodized aluminium with 4 in front wheels, height 80–90 cm (5 levels). Capacity 100 kg.","",[["EM-7254","Width 59 cm · 4 in wheels","1 Unit"]]],
 [11,"Walker with Wheels 9125L","Anodized aluminium with 5 in front wheels, height 79–97 cm (8 levels). Capacity 100 kg.","",[["EM-14895","Width 61 cm · 5 in wheels","1 Unit"]]],
 [11,"Underarm Crutches 9254","Extruded aluminium, TPR underarm pad and hand grip, rubber tip. Height 115–135 cm, capacity 135 kg.","1 Pair",[["EM-7257","115–135 cm"]]],
-[11,"Underarm Crutches 925","Foldable and detachable, TPR pads, rust proof alumina surface. Capacity 135 kg.","1 Pair",[["EM-7255","S · 95–115 cm"],["EM-7255","M · 115–135 cm"],["EM-7255","L · 135–155 cm"]]],
+[11,"Underarm Crutches 925","Foldable and detachable, TPR pads, rust proof alumina surface. Capacity 135 kg.","1 Pair",[["EM-10803","S · 95–115 cm"],["EM-7260","M · 115–135 cm"],["EM-7255","L · 135–155 cm"]]],
 [11,"Underarm Crutches","Extruded aluminium tube, foam hand grip, rubber tip. Capacity 100 kg.","1 Pair",[["EM-14860","94–138 cm"]]],
 [11,"Elbow Crutches (Lightweight)","Extruded aluminium, PP arm cuff, foam grip, rubber tip. Capacity 110 kg.","1 Pair",[["EM-14855","95–125 cm"]]],
-[11,"Elbow Crutches 933L","Anodized aluminium, independent spring lock pins for cuff and handle height. Capacity 130 kg.","1 Pair",[["EM-7256","S · 95–125 cm"],["EM-7256","M · 7–117 cm"],["EM-7256","L · 79–109 cm"]]],
+[11,"Elbow Crutches 933L","Anodized aluminium, independent spring lock pins for cuff and handle height. Capacity 130 kg.","1 Pair",[["EM-7259","S · 95–125 cm"],["EM-7258","M · 97–117 cm"],["EM-7256","L · 79–109 cm"]]],
 [11,"Walking Stick with Seat 943L","Folding tripod cane that opens into a seat, foam grip, anti-slip rubber tip. Capacity 135 kg.","",[["EM-14900","Folded 84 cm / seat 51 cm","1 Pc"]]],
 [11,"Walking Stick 927L","Folding stick, anodized aluminium, spring lock pin handle height adjustment. Capacity 100 kg.","",[["EM-10814","80–90 cm","1 Pc"]]],
 [11,"Rubber Tips","Replacement anti-slip rubber tips for sticks, crutches and walkers.","1 Pc",[["EM-14920","Grey"],["EM-14915","Black — tall"],["EM-14910","Gold"],["EM-14925","Black — short"]]],
@@ -643,260 +649,106 @@ const P = [
 [12,"Arm Sling","Wrinkle proof, thumb cradle, restricts movement to assist healing of arms and elbows.","1 Pc",[["EF-ARS (S)","S"],["EF-ARS (M)","M"],["EF-ARS (L)","L"],["EF-ARS (XL)","XL"],["EF-ARS (XXL)","XXL"],["EF-ARS (XXXL)","XXXL"]]],
 [12,"Medical Compression Stockings","Knee high, reduces swelling and improves circulation. Helps varicose and spider veins, edema, DVT.","1 Pair",[["EF-MSC (S)","S"],["EF-MSC (M)","M"],["EF-MSC (L)","L"],["EF-MSC (XXL)","XXL"],["EF-MSC (XXXL)","XXXL"]]],
 [12,"Cervical Collar Soft","Soft breathable material, reduces swelling and improves circulation. All day comfort.","1 Pc",[["EF-SC (S)","S"],["EF-SC (M)","M"],["EF-SC (L)","L"]]],
-[12,"Tennis Elbow Support","Breathable, lightweight, non-irritating with EVA pad for elbow stability.","1 Pc",[["EF-5104","M"],["EF-5106","L"],["EF-5108","XL"]]]
-];
-/* ---------------- build index ---------------- */
-const PRODUCTS = P.map((p, pi) => {
-  const [ci, name, desc, defPack, vars] = p;
-  const variants = vars.map((v, vi) => ({
-    key: pi + "-" + vi,
-    item: v[0] || "—",
-    size: v[1] || "Standard",
-    packing: v[2] || defPack || "—"
-  }));
-  return {
-    pi, ci, name, desc,
-    cat: CATS[ci][0],
-    color: CATS[ci][1],
-    variants,
-    hay: (name + " " + desc + " " + CATS[ci][0] + " " +
-          variants.map(v => v.item + " " + v.size + " " + v.packing).join(" "))
-          .toLowerCase().replace(/[^a-z0-9]+/g, " ")
-  };
-});
-const TOTAL_ITEMS = PRODUCTS.reduce((n, p) => n + p.variants.length, 0);
-const BYKEY = {};
-PRODUCTS.forEach(p => p.variants.forEach(v => BYKEY[v.key] = { p, v }));
+[12,"Tennis Elbow Support","Breathable, lightweight, non-irritating with EVA pad for elbow stability.","1 Pc",[["EF-5104","M"],["EF-5106","L"],["EF-5108","XL"]]],
+/* ============ Pharmacy / retail catalogue additions ============ */
 
-/* ---------------- state ---------------- */
-let activeCat = -1;          // -1 = all
-let query = "";
-const cart = new Map();      // key -> qty
+/* --- 4 · Nursing Consumables (Dr. Marco, Nova, Eurofit, Euromed) --- */
+[4,"Dr. Marco Underpads","Cotton-like top layer, super absorbent texture, leak-proof bottom layer, special slip preventing system.","30 Pcs/Pkt",[["EM-4322","60 x 90 cm"],["EM-4324","90 x 180 cm"]]],
+[4,"Dr. Marco Adult Diaper (Pants)","Cotton-like outer layer, breathable waist section, water-proof barriers.","30 Pcs/Pkt",[["EM-4326","Medium"],["EM-4328","Large"],["EM-4330","X-Large"]]],
+[4,"Dr. Marco Adult Diaper (Strap Type)","Textile outer surface, side strip system, super absorbent particles, wetness indicator, waist measurement.","30 Pcs/Pkt",[["EM-4334","Medium"],["EM-4336","Large"],["EM-4338","X-Large"]]],
+[4,"Nova Band First Aid Strips","Strong adhesive that fixes for a long time and leaves no residue after use.","",[["EM-11460","Universal","25 Pcs/Pkt"],["EM-11458","Sensitive","20 Pcs/Pkt"],["EM-11457","Kids","20 Pcs/Pkt"],["EM-11459","Transparent","20 Pcs/Pkt"],["EM-14985","Economic 90 x 60 mm","20 Pcs/Pkt"],["EM-11456","Cotton fabric","20 Pcs/Pkt"],["EM-16635","Cotton fabric with absorbent pad","20 Pcs/Pkt"]]],
+[4,"Nova Transparent Surgical Tape","Medical clear plaster with hypoallergenic adhesive for fixation of devices and dressings.","",[["EM-11471","1.25 cm x 5 m"],["EM-11472","2.5 cm x 5 m"],["EM-11473","5 cm x 5 m"]]],
+[4,"Nova Surgical Silk Tape","Silk acetate fabric carrier, powerful adhesion, tears easily by hand, radiotransparent.","",[["EM-16660","2.5 cm x 5 m"],["EM-16685","5 cm x 5 m"]]],
+[4,"Nova Corn Plaster","Salicylic acid 156 mg and benzoic acid 8 mg. Softens and removes corns with instant pain relief.","",[["EM-11461","Standard","8 Pcs/Pkt"]]],
+[4,"Eurofit Elastic Bandage","Premium 100% cotton elastic bandage for sprains, strains and dressing retention.","1 Roll",[["EF-5154","5 cm"],["EF-5156","7.5 cm"],["EF-5158","10 cm"],["EF-5160","15 cm"]]],
+[4,"Euromed Elastic Adhesive Bandage","Premium 100% cotton. Apply to clean dry skin; useful for sprains, strains, abdominal or chest surgery.","1 Roll",[["—","10 cm"]]],
+[4,"Hot Water Bag — Euromed","For menstrual cramps, muscle and joint pain, cold hands and feet, aches related to cold and flu.","1 Pc",[["EF-5140","2 Litres"]]],
+[4,"Hot & Cold Pack (Reusable)","Cool in freezer or heat in microwave or hot water. Includes ice pack and waterproof bag.","1 Pc",[["EF-10722","13 x 28 cm"]]],
+[4,"Instant Ice Pack","Hot and cold gel pack for aches, pains, fever, migraines and sports injuries. Stays flexible to -20 °C.","1 Pc",[["EF-10082","11.5 x 17.5 cm · 130 gm"]]],
+[4,"Burn Gel","90% purified water with propylene glycol and glycerol. Cools, soothes and prevents contamination.","20 Pcs/Box",[["EF-4398","10 x 10 cm"]]],
+[4,"Lab Coat Unisex — Euromed","Classic long sleeve unisex lab coat.","1 Pc",[["—","Small"],["—","Medium"],["—","Large"],["—","X-Large"],["—","XX-Large"]]],
+[4,"KN95 Protective Mask — Euromed","Disposable protective mask, filtration efficiency PFE 95%. Anti-spray, anti-dust, anti-fog.","",[["—","KN95","20 Pcs/Box"]]],
 
-const $ = id => document.getElementById(id);
-const norm = s => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+/* --- 7 · Devices (Beon range, scales, AED) --- */
+[7,"Electronic Sphygmomanometer — Beon 1A","Clinically validated upper arm monitor. 0–300 mmHg, ±3 mmHg, 99 memories, hypertension indicator, 2xAAA. ISO 81060-2, CE, FDA.","1 Unit",[["BEON1A","Adult cuff 22–32 cm"],["BEON1A-L","Large adult cuff 32–42 cm"],["BEON1A-P","Pediatric cuff 12–22 cm"]]],
+[7,"Blood Pressure Monitor — Beon 1B","Backlit LCD, one-touch operation, memory recall with averaging, arrhythmia detection. 4xAA or AC. 240 g.","1 Unit",[["BEON1B","110 x 80 x 50 mm"]]],
+[7,"Blood Pressure Monitor — Beon 1C","Bluetooth 5.0 with iOS and Android app, up to 4 users, 200 memories, USB charging. 280 g.","1 Unit",[["BEON1C","120 x 90 x 60 mm"]]],
+[7,"Sphygmomanometer (Aneroid)","Compact aneroid unit with double scale display for easy reading.","1 Unit",[["EM-11088","Standard"]]],
+[7,"Compressor Nebulizer — Beon 4A","Electro-pneumatic, 10–30 psi, flow 5–8 L/min, nebulization 0.2–0.5 ml/min, 10 ml tank. AC and DC car adapter.","1 Unit",[["BEON4A","23 x 18 x 12 cm · 2.5 kg"]]],
+[7,"Nebulizer Classic I — Beon 12A","Compact silent nebulizer suitable for all ages, convenient to handle.","1 Unit",[["BEON12A","Classic I"]]],
+[7,"Flexible Tip Digital Thermometer — Beon 6B","Soft bendable tip, ±0.1 °C, result in 10–30 seconds, IP67 water resistant, memory recall.","1 Pc",[["BEON6B","32.0–104.0 °F (0–40 °C)"]]],
+[7,"Rigid Digital Thermometer — Beon 6A","Durable rigid tip, ±0.1 °C, result in 10–30 seconds, IP67 water resistant, auto shut-off.","1 Pc",[["BEON6A","32.0–104.0 °F (0–40 °C)"]]],
+[7,"Ear Thermometer — Beon 5A","Infrared sensor, reading in 1–2 seconds, 20 memories, fever indicator, soft flexible ear tip. 2xAAA.","1 Pc",[["BEON5A","89.6–109.3 °F (32–42.9 °C)"]]],
+[7,"Infrared Forehead Thermometer — Beon 5B","Non-invasive, reading in 1 second, 20 memories, fever and distance indicator. 2xAAA.","1 Pc",[["BEON5B","89.6–109.3 °F (32–42.9 °C)"]]],
+[7,"Pulse Oximeter — Beon 11A","Small fingertip oximeter, high accuracy, low power consumption, easy to operate.","1 Pc",[["BEON11A","81 x 58 x 49 mm"]]],
+[7,"Manual Breast Pump — Beon 7A","BPA-free plastic and silicone, adjustable suction control, comfortable silicone cushion, dishwasher safe.","1 Pc",[["BEON7A","200 ml"]]],
+[7,"Stethoscope — Beon","Dual head, stainless steel and Ellite-Pro models. Black, gray, blue, red and other colours.","1 Pc",[["BEON3A","Dual head · adult / child"],["BEON3B","Stainless steel"],["BEON3C","Ellite-Pro"]]],
+[7,"Stethoscope (Dual Head) — Euromed","Flat-shaped head to detect low frequency heart sounds. For experts.","1 Unit",[["EM-10798","Dual head"]]],
+[7,"Height & Weight Scale — Column","LCD display with blue backlight, hideable height meter, rechargeable battery, BMI function.","1 Unit",[["TCS-200LP","200/250 kg · 50/100 g · height 60–210 cm"],["TCS-200MLA","200/250 kg · 50/100 g · height 87–210 cm"],["JSA-180","180/200 kg · 1 kg · manual · height 84–210 cm"]]],
+[7,"Baby Weighing Scale","Infant tray scale with height meter. Uses 4 x AA batteries (not included).","1 Unit",[["EBSL-20L","20 kg · 5 g · height 35–70 cm"]]],
+[7,"Automated External Defibrillator — Acoresmed","One-key switch, clear voice prompts, rugged construction, impedance compensation, regular self-test.","1 Unit",[["—","AED"]]],
 
-/* ---------------- category chips ---------------- */
-function buildChips() {
-  const frag = document.createDocumentFragment();
-  const mk = (label, idx, color) => {
-    const b = document.createElement("button");
-    b.className = "chip";
-    b.type = "button";
-    b.setAttribute("aria-pressed", activeCat === idx);
-    if (color) b.style.setProperty("--c", color);
-    b.innerHTML = (color ? '<i></i>' : '') + esc(label);
-    b.onclick = () => { activeCat = activeCat === idx ? -1 : idx; render(); refreshChips(); };
-    frag.appendChild(b);
-    return b;
-  };
-  mk("All products", -1, null);
-  CATS.forEach((c, i) => mk(c[0], i, c[1]));
-  $("chips").appendChild(frag);
-}
-function refreshChips() {
-  const btns = $("chips").querySelectorAll(".chip");
-  btns.forEach((b, i) => b.setAttribute("aria-pressed", (i - 1) === activeCat || (i === 0 && activeCat === -1)));
-}
+/* --- 10 · Emergency & First Aid (Eurofit boxes and kits) --- */
+[10,"First Aid Box ABS — Eurofit","European standard ABS first aid box, orange, CE 0197. Supplied filled.","1 Box",[["EF-5109","100 people · 45 x 33 x 15 cm"],["EF-5107","50 people · 34 x 33 x 12.5 cm"],["EF-5105","25 people · 29 x 20 x 12 cm"]]],
+[10,"First Aid Box Empty — Eurofit","Empty first aid boxes in ABS and metal for custom filling.","1 Box",[["EF-10912","Metal · 37 x 32 x 11 cm"],["EF-5109-E","ABS 100 people · 45 x 33 x 15 cm"],["EF-5107-E","ABS 50 people · 34 x 33 x 12.5 cm"]]],
+[10,"First Aid Kit — Eurofit","Wall mounted and stand alone kits in ABS and EVA.","1 Kit",[["EF-5111","EVA kit · 25 x 19 x 6 cm"],["EF-5115","Large wall mounted · 25 x 17 x 8 cm"],["EF-5113","Medium · 25 x 16.5 x 8 cm"],["EF-5117","Small · 20 x 12 x 8 cm"]]],
 
-/* ---------------- render ---------------- */
-function matches(p) {
-  if (activeCat > -1 && p.ci !== activeCat) return false;
-  if (!query) return true;
-  return query.split(" ").every(t => p.hay.includes(t));
-}
+/* --- 11 · Rehabilitation (wheelchairs, commodes, walking aids) --- */
+[11,"Economic Wheelchair 809B","Chrome finish, blue PVC seat, fixed aluminium footrest and armrest, 24 in solid rear wheels. Seat 41 cm, capacity 100 kg.","",[["EM-4368","Seat 41 cm · 16.6 kg","1 Unit"]]],
+[11,"Economic Wheelchair 809TB","Chromed carbon steel frame, 8 in PVC front casters, 24 in mag rear wheels, U foam flip up footplates. Seat 41 cm, capacity 100 kg.","",[["EM-7221","Seat 41 cm · 16.6 kg","1 Unit"]]],
+[11,"Aluminum Wheelchair 871","Aluminium frame, drop back handle, flip-up footrest, solid castors and rear wheels, united brake. Seat 46 cm, capacity 100 kg.","",[["EM-4358","Seat 46 cm · 12.3 kg","1 Unit"]]],
+[11,"Electric Wheelchair (Lightweight)","Super lightweight aluminium power chair. 20 AH battery, dual 180 W brushless motors, 2 remote controllers, shock absorbers. Seat 46 cm.","",[["EM-4340","Seat 46 cm · 15 kg","1 Unit"]]],
+[11,"Cerebral Palsy Wheelchair JL725L","Aluminium frame, ergonomic seat, detachable adjustable headrest, elevating footrest, pneumatic rear wheels. Seat 66.5 cm, capacity 100 kg.","",[["EM-4342","Seat 66.5 cm · 24.8 kg","1 Unit"]]],
+[11,"Steel Wheelchair JL951B-51","Powder coated steel frame, double cross bar, flip-up armrest, detachable footrest, pneumatic mag rear wheels. Seat 51 cm, capacity 136 kg.","",[["EM-4344","Seat 51 cm · 20 kg","1 Unit"]]],
+[11,"Transfer Chair JL2020","All-in-one patient lift and commode bath chair for easy transfer to toilet and bathroom. Seat 46 cm, height 46–71 cm, capacity 100 kg.","",[["EM-4346","Seat 46 cm · 28.5 kg","1 Unit"]]],
+[11,"Rollator 9188LH","Aluminium frame, adjustable handle height, soft PVC seat, handle grips with brake, detachable backrest. Capacity 100 kg.","",[["EM-4414","Seat 35 cm · 6.7 kg","1 Unit"]]],
+[11,"Commode Chair JL899","Foldable steel commode chair with backrest and armrests. Seat 46 cm, height 44 cm, capacity 100 kg.","",[["EM-4350","Seat 46 cm · 18 kg","1 Unit"]]],
+[11,"Commode Chair 8961L","Aluminium frame, pull-up seat, fixed armrest and footrest, 4 castors. Seat 45 cm, capacity 100 kg.","",[["EM-4360","Seat 45 cm · 8.2 kg","1 Unit"]]],
+[11,"Shower Chair 736LH","Aluminium frame with backrest and armrests, height adjustable legs 37–47 cm. Capacity 110 kg.","",[["EM-4362","Seat 40 cm · 6.2 kg","1 Unit"]]],
+[11,"Transfer Bench / Shower Chair 799L","Wide aluminium bench with backrest, height adjustable 46–56 cm. Capacity 110 kg.","",[["EM-4364","Seat 68 cm · 8.4 kg","1 Unit"]]],
+[11,"Folding Bathroom Grab Bar JL7945","Folding bathroom support bar for safe transfers.","",[["EM-4364","76 cm","1 Pc"]]],
+[11,"Folding Seated Walker JL961L","Helps maintain stability and balance. Height 62–75 cm, unfolded width 55 cm, capacity 100 kg.","",[["EM-4400","Seat 55 cm · 3.4 kg","1 Unit"]]],
+[11,"Walking Stick 3 Legs 926","Aluminium tubes with steel welded low profile base, comfortable hand grip. Height 71.5–94.3 cm, base 18–22 cm.","",[["EM-4410","71.5–94.3 cm","1 Pc"]]],
+[11,"Walking Stick 4 Legs 924 (Quad Cane)","Bariatric quad cane with offset handle and low centre of gravity. Adjusts 29 to 38 in.","",[["EM-4412","71.5–94.3 cm","1 Pc"]]],
+[11,"Walking Stick (Adjustable)","Lightweight anodized aluminium with spring lock pin handle height adjustment.","1 Pc",[["EM-4424","930L · Black"],["EM-4422","9206L · Brown"],["EM-4420","920L · Silver"]]],
 
-function render() {
-  const list = PRODUCTS.filter(matches);
-  const grid = $("grid");
-  grid.innerHTML = "";
-  $("empty").hidden = list.length > 0;
+/* --- 13 · Chemicals & Solutions --- */
+[13,"Alcohol Hand Spray","Hygienic hand care, moisturising, dries fast and non-sticky. Sanitizes without water.","",[["EM-9683","250 ml"]]],
+[13,"Hand Sanitizer","Hygienic hand care, moisturising and nurturing, dries fast and non-sticky.","",[["EM-9681","60 ml"],["EM-8251","500 ml"],["EM-9684","1 Litre"],["EM-9680","5 Litres"]]],
+[13,"Hand Soap (Anti-Bacterial)","Provides infection protection against a variety of germs for minor cuts, scrapes and burns.","",[["EM-9734","1 Litre"],["EM-9733","5 Litres"]]],
+[13,"Hand Scrub & Skin Cleanser","Antiseptic antimicrobial skin cleanser. Prevents skin infection and reduces cross-infection.","",[["EM-9678","500 ml"]]],
+[13,"Povidone Iodine 10% Solution","Topical antiseptic providing infection protection against a variety of germs for minor cuts, scrapes and burns.","",[["EM-9749","100 ml"],["EM-9746","200 ml"],["EM-9747","500 ml"],["EM-13970","1 Litre"],["EM-9748","5 Litres"],["EM-9752","250 ml Spray"]]],
+[13,"Povidone Iodine 10% Spray","Active ingredient povidone-iodine 10%. Inactive: pareth 25-9, purified water, sodium hydroxide.","",[["EM-16960","100 ml Spray"],["EM-9752","250 ml Spray"]]],
+[13,"Hydrogen Peroxide 6% Solution","Mild antiseptic used on the skin to prevent infection of minor cuts, scrapes and burns.","",[["EM-8171","100 ml"],["EM-8172","200 ml"],["EM-8173","500 ml"],["EM-8174","1 Litre"]]],
+[13,"Rubbing Alcohol (USP)","Mild antimicrobial effect, suitable for cleaning and disinfecting minor wounds.","",[["EM-11543","250 ml"],["EM-9700","500 ml"],["EM-12085","1 Litre"],["EM-9698","5 Litres"]]],
+[13,"Surgical Spirit (BP)","Skin cleansing agent with antiseptic properties. Used for skin preparation before injection.","",[["EM-9767","100 ml"],["EM-9768","200 ml"],["EM-9769","500 ml"],["EM-9002","1 Litre"],["EM-9770","5 Litres"]]],
+[13,"Paraffin Oil","Often used as a laxative to treat constipation. Also helps with dry scalp problems such as dandruff.","",[["EM-9741","100 ml"],["EM-9742","200 ml"],["EM-9743","500 ml"],["EM-9740","1 Litre"],["EM-9744","5 Litres"]]],
+[13,"Glycerin","Clear, colourless, odourless syrupy liquid derived from vegetable oils or animal fats.","",[["EM-8162","100 ml"],["EM-8164","200 ml"],["EM-8161","5 Litres"]]],
+[13,"Gentian Violet 1% — Areej","Aqua Violeta, 1% solution with 10% alcohol. First aid antiseptic, for external use only.","",[["—","50 ml"]]],
+[13,"Distilled Water — Euromed","Highly purified water for laboratory, medical, household and automotive cooling use. Not for drinking.","",[["EM-9502","1 Litre"],["EM-9504","5 Litres"],["EM-9500","20 Litres"]]],
+[13,"Water for Injection BP","Sterile water for injection and reconstitution.","",[["EM-9782","5 ml"],["EM-9779","10 ml"],["EM-9778","100 ml"],["EM-9781","500 ml"],["EM-9780","1 Litre"]]],
+[13,"Sodium Chloride Injection 0.9% BP","Supplies water and salt to the body; may also be mixed with other medications given by injection.","",[["EM-4354","5 ml"]]],
+[13,"IV Fluids — Dextrose","Intravenous infusion liquids.","",[["EM-9705","D10% · 500 ml"],["EM-9703","D5 45 · 500 ml"],["EM-9708","D5% · 500 ml"],["EM-9706","D5% · 1 Litre"],["EM-9711","D5NS · 500 ml"],["EM-9713","D5NS · 1 Litre"]]],
+[13,"IV Fluids — Normal Saline","Intravenous infusion liquids.","",[["EM-9731","NS · 5 ml"],["EM-9730","NS · 10 ml"],["EM-9715","NS · 100 ml"],["EM-9718","NS · 250 ml"],["EM-9720","NS · 500 ml"],["EM-9716","NS · 1 Litre"]]],
+[13,"IV Fluids — Ringer Lactate & Mannitol","Intravenous infusion liquids.","",[["EM-9727","RL · 500 ml"],["EM-9725","RL · 1 Litre"],["EM-9726","RL · 1 Litre Bag"],["EM-9714","Mannitol 10% · 500 ml"],["EM-9704","Mannitol 20% · 500 ml"]]],
 
-  const shown = list.reduce((n, p) => n + p.variants.length, 0);
-  $("count").innerHTML = list.length
-    ? "<b>" + shown + "</b> item" + (shown === 1 ? "" : "s") + " in <b>" + list.length + "</b> product" + (list.length === 1 ? "" : "s")
-    : "";
-  $("hintTop").textContent = (query || activeCat > -1)
-    ? "Showing " + (activeCat > -1 ? CATS[activeCat][0] : "search results")
-    : "Full catalogue · " + TOTAL_ITEMS + " items";
+/* --- 14 · Home & Personal Care --- */
+[14,"Memory Foam Pillow — Softlife","Therapeutic contour pillow that cradles the head and holds neck and shoulders in an optimal sleeping position.","1 Pc",[["VB03","56 x 36 x 11/7 cm"]]],
+[14,"Memory Foam Waist Support Pillow — Softlife","Supports the lower back in vehicle, home and office seats. Visco elastic or flexible foam.","1 Pc",[["VBD01","35 x 34 x 12 cm"]]],
+[14,"Coccyx Pillow & Ring Cushion — Softlife","Centred hole relieves pressure from the bottom. Effective for tailbone and coccyx pain.","1 Pc",[["EM-14780","Ring cushion · 43 x 9 cm"],["VMW01","Coccyx cushion"]]],
+[14,"Menstrual Cup — Cool Cup","Premium medical grade menstrual care product. Reusable.","1 Cup",[["—","Small"],["—","Medium"],["—","Large"]]],
+[14,"K-Y Lubricant Jelly","Water based lubricating jelly, recommended by gynecologists. Made in Turkey.","1 Tube",[["—","42 gr"],["—","82 gr"]]],
+[14,"Super Fiber — Timo","Triple superfood blend with oligosaccharide, apple, fruit and vegetable powder, wheat fiber, spirulina and oat fiber.","",[["—","10 gm x 10 sachets","1 Box"]]],
+[14,"Dental Floss — Coral Clean","Made from natural silk, candelilla wax and natural mint.","1 Pc",[["CC-5060","Waxed & mint"]]],
+[14,"Interdental Brush — Coral Clean","Cleans places out of reach of an orthodontic toothbrush, between teeth and appliances.","1 Pack",[["CC-5058","Angled handle"],["CC-5056","Bendable neck"],["CC-5054","Straight handle"]]],
+[14,"Floss Pick — Coral Clean","Holds the floss at the right tension with an easy-to-grip handle for fast between-teeth cleaning.","1 Pack",[["CC-5050","Standard"]]],
+[14,"Tongue Brush — Coral Clean","Tongue cleaner that removes gunk and food residue for fresher breath.","1 Pc",[["CC-5052","Standard"]]],
+[14,"Dental Care Travel Kit — Coral Clean","Toothbrush, folding travel brush, orthodontic wax, sand timer, dental mirror, floss, tongue cleaner and interdental brush.","1 Kit",[["CC-5054","8 piece kit"]]],
 
-  const frag = document.createDocumentFragment();
-  list.forEach(p => {
-    const card = document.createElement("article");
-    card.className = "card";
-    card.style.setProperty("--c", p.color);
-    let h = '<div class="card-h"><div class="cat">' + esc(p.cat) + '</div><h3>' + esc(p.name) + '</h3>' +
-            (p.desc ? '<p>' + esc(p.desc) + '</p>' : '') + '</div><ul class="vars">';
-    p.variants.forEach(v => {
-      h += '<li class="var" data-key="' + v.key + '">' +
-             '<div class="var-txt"><div class="var-size">' + esc(v.size) + '</div>' +
-             '<div class="var-sub"><code>' + esc(v.item) + '</code><span>' + esc(v.packing) + '</span></div></div>' +
-             '<div class="ctl"></div></li>';
-    });
-    h += "</ul>";
-    card.innerHTML = h;
-    frag.appendChild(card);
-  });
-  grid.appendChild(frag);
-  grid.querySelectorAll(".var").forEach(li => paintCtl(li));
-}
+/* ============ Dental catalogue additions ============ */
 
-function paintCtl(li) {
-  const key = li.dataset.key;
-  const qty = cart.get(key) || 0;
-  const box = li.querySelector(".ctl");
-  if (qty > 0) {
-    box.innerHTML = '<div class="stepper"><button type="button" aria-label="Remove one">−</button><span>' + qty + '</span><button type="button" aria-label="Add one">+</button></div>';
-    const [minus, plus] = box.querySelectorAll("button");
-    minus.onclick = () => setQty(key, qty - 1, li);
-    plus.onclick = () => setQty(key, qty + 1, li);
-  } else {
-    box.innerHTML = '<button class="add" type="button" aria-label="Add ' + esc(BYKEY[key].v.item) + ' to list">+</button>';
-    box.querySelector("button").onclick = () => { setQty(key, 1, li); toast("Added to your list"); };
-  }
-}
-
-function setQty(key, q, li) {
-  if (q <= 0) cart.delete(key); else cart.set(key, q);
-  if (li) paintCtl(li); else {
-    const el = document.querySelector('.var[data-key="' + key + '"]');
-    if (el) paintCtl(el);
-  }
-  updateBar();
-  if (!$("sheet").hidden) renderLines();
-}
-
-/* ---------------- bar + sheet ---------------- */
-function updateBar() {
-  const lines = cart.size;
-  const units = [...cart.values()].reduce((a, b) => a + b, 0);
-  $("bar").classList.toggle("on", lines > 0);
-  $("barCount").textContent = lines + (lines === 1 ? " item" : " items") + " · " + units + " qty";
-  $("sendWA").disabled = lines === 0;
-  $("copyList").disabled = lines === 0;
-}
-
-function renderLines() {
-  const box = $("lines");
-  if (!cart.size) {
-    box.innerHTML = '<p style="color:#7C91A1;font-size:14px;padding:8px 0 4px">Your list is empty. Close this and tap + on any item to add it.</p>';
-    return;
-  }
-  let h = "";
-  [...cart.keys()].forEach(k => {
-    const { p, v } = BYKEY[k], q = cart.get(k);
-    h += '<div class="line" data-key="' + k + '">' +
-           '<div class="line-t"><b>' + esc(p.name) + '</b>' +
-           '<small><code>' + esc(v.item) + '</code> · ' + esc(v.size) + ' · ' + esc(v.packing) + '</small><br>' +
-           '<button class="rm" type="button">Remove</button></div>' +
-           '<div class="stepper" style="align-self:center"><button type="button" aria-label="Remove one">−</button><span>' + q + '</span><button type="button" aria-label="Add one">+</button></div>' +
-         '</div>';
-  });
-  box.innerHTML = h;
-  box.querySelectorAll(".line").forEach(row => {
-    const k = row.dataset.key, q = cart.get(k);
-    const [minus, plus] = row.querySelectorAll(".stepper button");
-    minus.onclick = () => setQty(k, q - 1);
-    plus.onclick = () => setQty(k, q + 1);
-    row.querySelector(".rm").onclick = () => setQty(k, 0);
-  });
-}
-
-function openSheet() {
-  $("sheet").hidden = false;
-  renderLines();
-  requestAnimationFrame(() => { $("sheet").classList.add("on"); $("scrim").classList.add("on"); });
-  document.body.style.overflow = "hidden";
-}
-function closeSheet() {
-  $("sheet").classList.remove("on"); $("scrim").classList.remove("on");
-  document.body.style.overflow = "";
-  setTimeout(() => { $("sheet").hidden = true; }, 260);
-}
-
-/* ---------------- message ---------------- */
-function buildMessage() {
-  const d = new Date();
-  const stamp = d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
-  const L = ["*Product enquiry — Apple Med Trading L.L.C*", stamp, ""];
-  let n = 0;
-  [...cart.keys()].forEach(k => {
-    const { p, v } = BYKEY[k];
-    n++;
-    L.push(n + ". " + p.name);
-    L.push("   Item: " + v.item + " | Size: " + v.size);
-    L.push("   Packing: " + v.packing + " | Qty: " + cart.get(k));
-  });
-  L.push("");
-  L.push("Total lines: " + cart.size);
-  const name = $("cName").value.trim(), org = $("cOrg").value.trim();
-  const ph = $("cPhone").value.trim(), em = $("cEmail").value.trim(), nt = $("cNote").value.trim();
-  if (name || org || ph || em || nt) L.push("");
-  if (name) L.push("Name: " + name);
-  if (org) L.push("Clinic/Company: " + org);
-  if (ph) L.push("Contact: " + ph);
-  if (em) L.push("Email: " + em);
-  if (nt) L.push("Notes: " + nt);
-  L.push("");
-  L.push("Please send prices and availability. Thank you.");
-  return L.join("\n");
-}
-
-function toast(msg) {
-  const t = $("toast");
-  t.textContent = msg;
-  t.classList.add("on");
-  clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove("on"), 1800);
-}
-
-/* ---------------- events ---------------- */
-$("q").addEventListener("input", e => {
-  query = norm(e.target.value);
-  $("searchWrap").classList.toggle("has", e.target.value.length > 0);
-  render();
-});
-$("clr").onclick = () => { $("q").value = ""; query = ""; $("searchWrap").classList.remove("has"); render(); $("q").focus(); };
-$("reset").onclick = () => { $("q").value = ""; query = ""; activeCat = -1; $("searchWrap").classList.remove("has"); refreshChips(); render(); window.scrollTo({ top: 0, behavior: "smooth" }); };
-$("openCart").onclick = openSheet;
-$("closeCart").onclick = closeSheet;
-$("scrim").onclick = closeSheet;
-document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("sheet").hidden) closeSheet(); });
-
-$("clearAll").onclick = () => {
-  if (!cart.size) return;
-  if (confirm("Remove all items from your list?")) {
-    cart.clear();
-    render(); updateBar(); renderLines();
-  }
-};
-
-$("copyList").onclick = async () => {
-  const txt = buildMessage();
-  try {
-    await navigator.clipboard.writeText(txt);
-    toast("List copied");
-  } catch (err) {
-    const ta = document.createElement("textarea");
-    ta.value = txt; document.body.appendChild(ta); ta.select();
-    document.execCommand("copy"); ta.remove();
-    toast("List copied");
-  }
-};
-
-$("sendWA").onclick = () => {
-  const num = $("waNum").value.replace(/\D/g, "");
-  if (num.length < 8) { toast("Add a valid WhatsApp number first"); $("waNum").focus(); return; }
-  const url = "https://wa.me/" + num + "?text=" + encodeURIComponent(buildMessage());
-  window.open(url, "_blank", "noopener");
-};
-
-/* ---------------- start ---------------- */
-buildChips();
-render();
-updateBar();
-
-</script>
-</body>
-</html>
+/* --- 15 · Dental Materials --- */
+[15,"Universal Bond — Self Etch (Imicryl)","MDP monomer. Total-etch, self-etch or selective-etch. Zero sensitivity, high humidity tolerance. Bonding of composite, compomer and core build-up materials.","",[["TP-2029","Universal bond","5 g Bottle"]]],
+[15,"Microhybrid Composite — Nova Compo MHC","Universal composite. Superior aesthetics, high radiopacity, no sticking to instruments, low polymerisation shrinkage and stress.","2 g Syringe",[["TP-2066A1","Shade A1"],["TP-2066A2","Shade A2"],["TP-2066A3","Shade A3"],["TP-2066A3.5","Shade A3.5"],["TP-2066-B1","Shade B1"],["TP-2066-B2","Shade B2"],["TP-2066UD","Shade UD"],["TP-2066A02","Shade 0A2"]]],
+[15,"Nano-Hybrid Composite — Nova Compo C","Restorations of deciduous teeth, classes I–IV, cervical caries and root erosion, fissure sealing, veneering of discoloured anterior teeth.","",[["TP-2043A2","Shade A2","2 g Syringe"]]],
+[15,"Posterior Compos
